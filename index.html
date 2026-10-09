@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>2027 Capacity Plan by Province</title>
+<style>:root{--bg:#f4f6f9;--card:#fff;--ink:#17202b;--mute:#5f6d7e;--line:#e1e6ed;--soft:#f0f3f8;--c1:#2f6fd6;--c2:#e08a1e;--c3:#1f9d8a;--c4:#8a5cc2;--c5:#c8553d;--c6:#6b7a8d;--good:#1b8f5a;--bad:#c9382f;--warn:#b7791f;--accent:#2f6fd6;--shadow:0 1px 2px rgba(20,30,50,.06),0 4px 14px rgba(20,30,50,.05);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#10141a;--card:#181e27;--ink:#e7ecf3;--mute:#98a5b6;--line:#2a3441;--soft:#1f2732;--c1:#5b93f0;--c2:#f0a640;--c3:#3cc5ae;--c4:#a98be0;--c5:#e5806a;--c6:#8c9bb0;--good:#3dc884;--bad:#ef6b62;--warn:#e0a84a;--accent:#5b93f0;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#10141a;--card:#181e27;--ink:#e7ecf3;--mute:#98a5b6;--line:#2a3441;--soft:#1f2732;--c1:#5b93f0;--c2:#f0a640;--c3:#3cc5ae;--c4:#a98be0;--c5:#e5806a;--c6:#8c9bb0;--good:#3dc884;--bad:#ef6b62;--warn:#e0a84a;--accent:#5b93f0;--shadow:none;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.app{max-width:1320px;margin:0 auto;padding:0 16px 40px}
+h1{font-size:20px;margin:14px 0 0;letter-spacing:-.01em}h1 span{font-weight:400;color:var(--mute);font-size:14px;margin-left:6px}
+h3{margin:0;font-size:15px}h4{margin:12px 0 6px;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.tag{margin:2px 0 0;color:var(--mute);font-size:12px}
+.titlerow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.scenrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:12px 0 10px}
+.slab{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute)}
+.schip{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:5px 12px;border-radius:999px;font-weight:600;cursor:pointer;font-size:13px}
+.schip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.rename,.descin{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:5px 9px;font:inherit}
+.rename{width:130px;margin-left:8px;font-weight:600}.descin{flex:1;min-width:220px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;transition:opacity .15s}.kpis.pending{opacity:.55}
+.kpis>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;box-shadow:var(--shadow)}
+.kpis i{display:block;font-style:normal;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.kpis b{display:block;font-size:21px;letter-spacing:-.01em;margin-top:1px}.kpis em{display:block;font-style:normal;font-size:11.5px;color:var(--mute)}
+.kpis .ok b{color:var(--good)}.kpis .no b{color:var(--bad)}
+.tabs{display:flex;gap:4px;overflow-x:auto;margin:14px 0 14px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);padding:6px 0;border-bottom:1px solid var(--line)}
+.tabs button{border:0;background:transparent;color:var(--mute);padding:8px 14px;border-radius:8px;font:inherit;font-weight:600;cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--card);color:var(--accent);box-shadow:var(--shadow)}
+.stack{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow);min-width:0}
+.cardhead{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:10px;flex-wrap:wrap}
+.sub{margin:3px 0 0;color:var(--mute);font-size:12.5px;max-width:760px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.inputs{display:grid;grid-template-columns:minmax(0,1fr) 410px;gap:16px;align-items:start}
+.inleft{display:flex;flex-direction:column;gap:16px;min-width:0}
+.sticky{position:sticky;top:calc(env(safe-area-inset-top,0px) + 56px);max-height:calc(100vh - 70px);overflow:auto}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:8px 0 10px}
+.stat{background:var(--soft);border-radius:10px;padding:9px 11px}.slabel{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mute)}
+.sval{font-size:19px;font-weight:700;margin-top:1px}.ssub{font-size:11.5px;color:var(--mute)}.stat.good .sval{color:var(--good)}.stat.bad .sval{color:var(--bad)}
+.row{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:8px 0}.row.wrap{row-gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;font-size:12px}.flabel{color:var(--mute);font-weight:600}.flabel em{font-style:normal;font-weight:400;margin-left:6px;font-size:11px}
+.numwrap{display:inline-flex;align-items:center;gap:3px}.suf{color:var(--mute);font-size:12px}
+input.num,select{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:7px;padding:5px 7px;font:inherit;font-size:13px}
+input.num:focus,select:focus,.rename:focus,.descin:focus{outline:2px solid var(--accent);outline-offset:0}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--soft);border-radius:9px;padding:3px;gap:2px}
+.seg button{border:0;background:transparent;color:var(--mute);padding:5px 10px;border-radius:7px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.seg button.on{background:var(--card);color:var(--accent);box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 11px;border-radius:8px;font:inherit;font-size:12.5px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--accent);color:var(--accent)}.btn:disabled{opacity:.4;cursor:not-allowed}.btn.ghost{background:transparent}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.sliderwrap{display:inline-flex;align-items:center;gap:8px}.sliderwrap input{width:150px;accent-color:var(--accent)}.sliderwrap b{min-width:46px;font-size:12.5px}
+hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+.note{color:var(--mute);font-size:12px;margin:6px 0}
+.tscroll{overflow-x:auto}
+table.t{border-collapse:collapse;width:100%;font-size:13px}
+.t th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute);padding:7px 8px;border-bottom:1px solid var(--line);white-space:nowrap;font-weight:600}
+.t td{padding:7px 8px;border-bottom:1px solid var(--line);vertical-align:top}.t.sm td,.t.sm th{padding:5px 7px}
+.t .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.t td.strong,.t tr.strong td{font-weight:700}
+.t.dash tbody tr{cursor:pointer}.t tbody tr:hover{background:var(--soft)}.t tr.active{background:color-mix(in srgb,var(--accent) 10%,transparent)}
+.t tr.recon td{color:var(--mute);font-style:italic}.t tr.prov td{padding-top:3px;padding-bottom:3px}
+.mute{color:var(--mute)}.good{color:var(--good)}.bad{color:var(--bad)}.warn{color:var(--warn)}
+.desc{font-size:11.5px;color:var(--mute);font-weight:400;max-width:330px;white-space:normal;margin-top:2px}
+.pill{background:var(--accent);color:#fff;border-radius:999px;font-size:10px;padding:1px 7px;margin-left:6px;vertical-align:middle}
+.chips{display:flex;flex-wrap:wrap;gap:4px;max-width:340px}.chip{background:var(--soft);border-radius:6px;padding:2px 7px;font-size:11.5px;white-space:nowrap}
+.mrow{display:flex;flex-wrap:wrap;gap:6px 8px;align-items:flex-end;margin:6px 0}.mlabel{width:100%;font-size:12px;font-weight:600;color:var(--mute)}
+.mcell{display:flex;flex-direction:column;gap:2px;font-size:10.5px;color:var(--mute)}.mgrid{display:flex;flex-wrap:wrap;gap:6px 8px;margin:8px 0}
+.sparkline{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;margin-top:8px;color:var(--ink)}.sparkline i{font-style:normal;color:var(--mute);margin-right:4px;font-size:10.5px}
+.chartbox{min-width:0}.svgscroll{overflow-x:auto}svg{display:block;width:100%;height:auto}
+.legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:11.5px;color:var(--mute);margin:2px 0 6px}.legend span{display:inline-flex;align-items:center;gap:5px}.legend i{display:inline-block;width:12px;height:10px;border-radius:2px}
+.tick{fill:var(--mute);font-size:10.5px}.wval{fill:var(--ink);font-size:11px;font-weight:700}.grid{stroke:var(--line);stroke-width:1}.ref{stroke:var(--bad);stroke-dasharray:4 3;stroke-width:1.2}.conn{stroke:var(--mute);stroke-width:1;stroke-dasharray:2 2}
+.chartnote{font-size:11.5px;color:var(--mute);margin:4px 0 0}
+.heat{display:grid;gap:2px;font-size:10.5px;overflow-x:auto;min-width:620px}.hc{border-radius:3px;text-align:center;padding:5px 0;font-variant-numeric:tabular-nums}.hl{display:flex;align-items:center;color:var(--mute);font-weight:600}.hh{text-align:center;color:var(--mute)}
+.steps,.gaps{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
+footer{margin-top:24px;color:var(--mute);font-size:12px}
+@media (max-width:1050px){.inputs{grid-template-columns:1fr}.sticky{position:static;max-height:none}.grid2{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.app{padding:0 10px 30px}h1 span{display:block;margin:2px 0 0}.rename{margin-left:0}.card{padding:12px}}
+
+.t.dash td:nth-child(2){min-width:280px}.t.dash td:nth-child(11){min-width:250px}.t.dash .desc{max-width:none}
+textarea.paste{width:100%;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:8px;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;margin-bottom:8px}
+input.opt{background:var(--card)}.inl{display:inline-flex;gap:6px;align-items:center;font-size:12.5px}
+.t.gap td{min-width:44px}.t.fte td:first-child,.t.fte th:first-child{position:sticky;left:0;background:var(--card);min-width:200px}
+.note.bad{color:var(--bad)}
+.tabstrip{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.sec{padding:10px 14px}.sechead{display:flex;gap:8px;align-items:baseline;width:100%;text-align:left;background:none;border:0;color:var(--ink);font:inherit;cursor:pointer;padding:4px 0}
+.sechead b{font-size:14px}.sechead em{font-style:normal;color:var(--mute);font-size:12px}
+table.sheet{font-size:11.5px}.sheet th,.sheet td{padding:3px 5px;min-width:34px}.sheet .fc{position:sticky;left:0;background:var(--card);min-width:150px;z-index:1;font-weight:600;text-align:left}
+.sheet th.mh{text-align:center;background:var(--soft);border-left:2px solid var(--line)}.sheet th.dh{font-size:9.5px}
+.sheet td.hot{background:rgba(201,56,47,.18)}.sheet tr.tot td{background:var(--soft)}
+.blk{display:inline-flex;align-items:center;gap:3px;background:var(--soft);padding:3px 6px;border-radius:8px}.blk i{font-style:normal;color:var(--mute);font-size:11px}
+input.fill{background:var(--soft);font-size:11.5px}.pastewrap{position:relative;display:inline-block}.pastebox{position:absolute;right:0;top:34px;z-index:30;width:420px;max-width:80vw;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;box-shadow:0 8px 28px rgba(0,0,0,.25)}
+input.txt{width:150px;text-align:left}
+</style>
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="vendor/htm.umd.js"></script>
+</head><body><div id="root"></div>
+<noscript>This plan needs JavaScript.</noscript>
+<script>
+(function (root) {
+'use strict';
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const DIM = [31,28,31,30,31,30,31,31,30,31,30,31];
+const WEEKS = DIM.map(d => d / 7);
+const REG = ['PR','BC','ATL','ON','QC'];
+const REG_NAME = { PR:'AB/SK/MB/Terr', BC:'BC', ATL:'NS/NB/PE/NL', ON:'ON', QC:'QC' };
+
+// Hourly demand distribution (QC Intakes tab, Jan 2027, % of weekly volume). Rows = hour 0..23, cols = SUN..SAT
+const PROFILE_RAW = [
+[.07,.08,.05,.05,.08,.07,.07],[.05,.04,.05,.04,.02,.04,.05],[.02,.03,.02,.06,.05,.05,.06],[.03,.06,.06,.04,.05,.07,.04],
+[.06,.06,.06,.05,.06,.05,.07],[.08,.14,.13,.13,.15,.12,.08],[.22,.45,.39,.46,.39,.39,.20],[.50,.88,1.02,.83,.75,.80,.58],
+[1.15,1.78,1.57,1.46,1.31,1.38,1.07],[1.04,1.72,1.51,1.38,1.35,1.50,.89],[.95,1.56,1.34,1.29,1.24,1.24,.90],[.81,1.38,1.28,1.18,1.16,1.15,.73],
+[.82,1.29,1.12,1.03,1.04,.99,.66],[.75,1.23,1.08,.94,1.08,.92,.63],[.65,1.25,1.01,.93,.99,.82,.60],[.58,1.05,.95,.85,.87,.78,.53],
+[.55,1.14,.99,.94,.82,.66,.45],[.56,1.14,1.08,.96,.86,.67,.44],[.62,1.00,.98,.91,.84,.55,.46],[.50,.82,.83,.76,.65,.51,.37],
+[.51,.61,.57,.56,.53,.37,.36],[.33,.42,.34,.32,.30,.24,.22],[.17,.21,.20,.16,.22,.16,.13],[.10,.13,.11,.12,.10,.07,.12]];
+const PROF = new Float64Array(168);
+(function () { let t = 0; for (let d = 0; d < 7; d++) for (let h = 0; h < 24; h++) t += PROFILE_RAW[h][d];
+  for (let d = 0; d < 7; d++) for (let h = 0; h < 24; h++) PROF[d*24+h] = PROFILE_RAW[h][d] / t; })();
+
+const SUBS_V1 = [3738096,3735137,3731012,3739357,3755183,3787645,3804530,3836986,3872064,3901269,3940559,3985487];
+const SUBS_V2 = [3658035,3666672,3675330,3684007,3692706,3701425,3710164,3718924,3727705,3736507,3745329,3754172];
+const SUBS_2026 = [3756420,3746923,3722871,3730753,3735948,3776190,3757851,3743577,3751606,3751277,3747373,3743745];
+const CONS_INT_27 = [34765,31002,35445,33281,32671,32574,35383,34150,34462,34722,34677,39855];
+const CONS_CLI_27 = [30279,27641,30222,29167,27789,27272,28534,27243,29041,30040,30343,33080];
+const CONS_INT_26 = [40743,35730,40197,37766,36951,35438,37549,35979,36975,38619,39583,43733];
+const CONS_CLI_26 = [24301,22913,25471,24683,23509,24408,26369,25415,26528,26143,25437,29203];
+const UTIL_INT_27 = CONS_INT_27.map((c,i)=>c/SUBS_V1[i]);
+const UTIL_CLI_27 = CONS_CLI_27.map((c,i)=>c/SUBS_V1[i]);
+const UTIL_INT_26 = CONS_INT_26.map((c,i)=>c/SUBS_2026[i]);
+const UTIL_CLI_26 = CONS_CLI_26.map((c,i)=>c/SUBS_2026[i]);
+
+const DIST = {
+ int: { PR:[6.31,6.37,6.55,6.24,6.01,6.23,6.81,6.13,6.36,5.78,5.90,6.53], BC:[8.89,8.37,8.46,8.74,8.86,9.18,8.91,8.39,8.69,8.54,8.28,7.77],
+  ATL:[9.08,8.83,9.52,9.00,8.96,9.04,7.92,7.84,8.11,8.51,8.06,7.50], ON:[25.08,23.94,25.03,25.87,26.05,26.19,26.83,26.93,26.21,26.29,25.41,27.97],
+  QC:[50.65,52.49,50.44,50.16,50.12,49.36,49.53,50.70,50.63,50.88,52.36,50.23] },
+ clin: { PR:[6.80,6.59,6.72,6.55,6.31,6.49,6.40,6.84,6.70,6.41,6.28,7.16], BC:[8.94,8.76,8.91,8.66,8.78,8.96,8.88,9.05,8.43,8.27,8.85,8.00],
+  ATL:[10.57,10.44,11.09,10.73,10.89,11.12,10.53,10.71,10.34,10.58,10.40,9.87], ON:[26.44,27.24,27.36,26.84,27.45,27.13,27.70,27.13,27.78,27.21,27.44,28.15],
+  QC:[47.26,46.97,45.92,47.23,46.56,46.31,46.49,46.27,46.75,47.52,47.03,46.82] } };
+const DISTN = { int:{}, clin:{} };
+['int','clin'].forEach(ch => { REG.forEach(r => { DISTN[ch][r] = DIST[ch][r].map((v,m)=> v / REG.reduce((a,k)=>a+DIST[ch][k][m],0)); }); });
+
+// Province split inside multi-province regions (proxy: share of V10B scheduled clinical hours; editable)
+const PROV_SPLIT = { PR:{AB:0.641,SK:0.180,MB:0.179,Terr:0.000}, ATL:{NB:0.239,NS:0.255,NL:0.377,PE:0.129} };
+
+const CPH_BASE = { int:{PR:1.67,BC:1.69,ATL:1.63,ON:2.27,QC:2.10}, clin:{PR:1.18,BC:1.56,ATL:1.13,ON:1.75,QC:1.97} };
+const RATE27_CLIN = { PR:92.6143, BC:110.7157, ATL:95.4427, ON:96.6368, QC:139.0497 };
+const CM_RATE_26 = 51.50, CA_RATE_26 = 30.00, INFL_BASE = 0.03;
+const CA_RATIO = { PR:0.3566, BC:0.3870, ATL:0.3855, ON:0.2133, QC:0.4315 };
+const SHEET_HOURS = {
+  clin:{ PR:24392, BC:20378, ATL:33869, ON:53211, QC:81852 },
+  cm:{ PR:12950, BC:15714, ATL:16339, ON:40467, QC:61271 },
+  ca:{ PR:7177, BC:9920, ATL:10249, ON:10971, QC:46499 } };
+const REF_SUPPLY_ADJ = 0.0412;
+const MASTER_BLOCKS = [[10,11,0,1,2,3],[4,5,6,7,8,9]];
+const OPEN_BLOCKS = [[10,11,0],[1,2,3],[4,5],[6,7,8,9]];
+
+// ---------- Erlang C ----------
+function erlangMin(A, ratio, target, minN) {
+  if (A <= 1e-9) return minN;
+  let B = 1;
+  for (let n = 1; n < 3000; n++) {
+    B = A * B / (n + A * B);
+    if (n > A) {
+      const C = n * B / (n - A * (1 - B));
+      const sl = 1 - C * Math.exp(-(n - A) * ratio);
+      if (sl >= target && n >= minN) return n;
+    }
+  }
+  return 3000;
+}
+function slInt(N, A, ratio) {
+  if (A <= 1e-9) return { sl: 1, asa: 0 };
+  if (N <= A) return { sl: 0, asa: 999 };
+  let B = 1;
+  for (let n = 1; n <= N; n++) B = A * B / (n + A * B);
+  const C = N * B / (N - A * (1 - B));
+  return { sl: Math.max(0, 1 - C * Math.exp(-(N - A) * ratio)), asa: C / (N - A) };
+}
+// returns {sl, asaUnits}; asa (minutes) = asaUnits * AHT
+function slFrac(N, A, ratio) {
+  const lo = Math.floor(N), hi = Math.ceil(N);
+  const a = slInt(lo, A, ratio);
+  if (hi === lo) return a;
+  const b = slInt(hi, A, ratio), w = N - lo;
+  return { sl: a.sl + (b.sl - a.sl) * w, asa: Math.min(999, a.asa + (b.asa - a.asa) * w) };
+}
+
+// ---------- Params ----------
+function getSubs(p) {
+  if (p.subsMode === 'series') return p.subsSeries.slice();
+  if (p.subsMode === 'manual') return p.subsManual.slice();
+  return MONTHS.map((_, m) => p.subStart * (1 + p.growthPct * m / 12));
+}
+function buildDemand(p) {
+  const subs = getSubs(p), vol = { int:{}, clin:{} };
+  ['int','clin'].forEach(ch => {
+    const util = ch === 'int' ? p.utilInt : p.utilClin, au = ch === 'int' ? p.autoInt : p.autoClin;
+    REG.forEach(r => { vol[ch][r] = MONTHS.map((_, m) => subs[m] * util[m] * (1 + p.utilAdj) * (1 - au[m]) * DISTN[ch][r][m]); });
+  });
+  return { subs, vol };
+}
+
+function aggregate(raw, cfg) {
+  const L = cfg.blockLen, out = new Float64Array(168);
+  for (let d = 0; d < 7; d++) for (let b = 0; b < 24; b += L) {
+    let mx = 0, sm = 0;
+    for (let h = b; h < b + L; h++) { const v = raw[d*24+h]; if (v > mx) mx = v; sm += v; }
+    let v = cfg.agg === 'max' ? mx : sm / L;
+    if (cfg.roundUp) v = Math.ceil(v - 1e-9);
+    for (let h = b; h < b + L; h++) out[d*24+h] = v;
+  }
+  return out;
+}
+
+function poolMeta(p, pool, r) {
+  const ch = pool === 'clin' ? 'clin' : 'int';
+  const cph = p.cph[ch][r] * (1 + (ch === 'int' ? p.cphUpInt : p.cphUpClin));
+  const sla = ch === 'int' ? p.slaInt : p.slaClin;
+  const occ = ch === 'int' ? p.engine.occInt : p.engine.occClin;
+  const minCov = ch === 'int' ? p.minCovInt : p.minCovClin;
+  const adj = ch === 'int' ? p.supplyAdjInt : p.supplyAdjClin;
+  return { ch, cph, sla, occ, minCov, adj, ratio: sla.mins * cph / (60 * occ), ca: ch === 'int' ? p.caRatio[r] : 0 };
+}
+function rawRequirement(lam, meta, model) {
+  const raw = new Float64Array(168);
+  for (let s = 0; s < 168; s++) {
+    const det = lam[s] / meta.cph;
+    raw[s] = model === 'det' ? det : erlangMin(det * meta.occ, meta.ratio, meta.sla.pct, det > 0 ? 1 : 0);
+  }
+  return raw;
+}
+
+function phasePlan(Sm, p) {
+  const M = [], O = [], T = [];
+  for (let m = 0; m < 12; m++) { M.push(new Float64Array(168)); O.push(new Float64Array(168)); T.push(new Float64Array(168)); }
+  MASTER_BLOCKS.forEach(blk => { for (let s = 0; s < 168; s++) {
+    let mn = Infinity; blk.forEach(m => { if (Sm[m][s] < mn) mn = Sm[m][s]; });
+    const v = Math.floor(Math.max(0, mn * (1 - p.masterRed)) + 1e-9); blk.forEach(m => { M[m][s] = v; }); } });
+  OPEN_BLOCKS.forEach(blk => { for (let s = 0; s < 168; s++) {
+    let mn = Infinity; blk.forEach(m => { const v = Sm[m][s] - M[m][s]; if (v < mn) mn = v; });
+    const v = Math.floor(Math.max(0, mn * (1 - p.openRed)) + 1e-9); blk.forEach(m => { O[m][s] = v; }); } });
+  for (let m = 0; m < 12; m++) for (let s = 0; s < 168; s++) T[m][s] = Math.max(0, Sm[m][s] - M[m][s] - O[m][s]);
+  return { M, O, T };
+}
+
+// pool: 'clin' (providers) or 'int' (intake = CA pool + CM pool). Demand is pooled for Erlang; the plan is then split by CA:CM ratio.
+function runPool(p, dem, pool, r, full) {
+  const meta = poolMeta(p, pool, r), cfg = p.engine;
+  const lamM = [], Sm = [];
+  for (let m = 0; m < 12; m++) {
+    const weekly = dem.vol[meta.ch][r][m] / WEEKS[m];
+    const lam = new Float64Array(168); for (let s = 0; s < 168; s++) lam[s] = weekly * PROF[s];
+    const raw = rawRequirement(lam, meta, cfg.supplyModel);
+    const B = aggregate(raw, cfg);
+    const S = new Float64Array(168);
+    for (let s = 0; s < 168; s++) S[s] = Math.max(meta.minCov, B[s] * (1 + meta.adj));
+    lamM.push(lam); Sm.push(S);
+  }
+  const rho = meta.ca, Sca = [], Scm = [];
+  for (let m = 0; m < 12; m++) { const a = new Float64Array(168), c = new Float64Array(168);
+    for (let s = 0; s < 168; s++) { a[s] = Sm[m][s] * rho; c[s] = Sm[m][s] - a[s]; } Sca.push(a); Scm.push(c); }
+  const { M, O, T } = phasePlan(pool === 'clin' ? Sm : Scm, p);
+  const months = [], slArr = [], asaArr = [], Seffm = [];
+  for (let m = 0; m < 12; m++) {
+    const w = WEEKS[m]; let hM = 0, hO = 0, hT = 0, hCA = 0, hPlan = 0, slNum = 0, asaNum = 0, den = 0;
+    const Seff = new Float64Array(168), sl = full ? new Float64Array(168) : null, asa = full ? new Float64Array(168) : null;
+    const aht = 60 / meta.cph * meta.occ;
+    for (let s = 0; s < 168; s++) {
+      hM += M[m][s]*w; hO += O[m][s]*w; hT += p.topUpFill*T[m][s]*w; hCA += Sca[m][s]*w; hPlan += Sm[m][s]*w;
+      Seff[s] = Sca[m][s] + M[m][s] + O[m][s] + p.topUpFill * T[m][s];
+      const Aload = lamM[m][s] / meta.cph * meta.occ;
+      const e = slFrac(Seff[s], Aload, meta.ratio);
+      slNum += lamM[m][s] * e.sl; asaNum += lamM[m][s] * Math.min(999, e.asa * aht); den += lamM[m][s];
+      if (full) { sl[s] = e.sl; asa[s] = Math.min(999, e.asa * aht); }
+    }
+    months.push({ planned: hPlan, hM, hO, hT, hCA, slNum: slNum * w, asaNum: asaNum * w, den: den * w });
+    Seffm.push(Seff); if (full) { slArr.push(sl); asaArr.push(asa); }
+  }
+  return { months, meta, full: full ? { lam: lamM, S: Sm, Sca, Scm, M, O, T, Seff: Seffm, sl: slArr, asa: asaArr } : null };
+}
+
+function rates(p) {
+  const k = 1 + p.infl, kb = 1 + INFL_BASE;
+  const clin = {}; REG.forEach(r => { clin[r] = RATE27_CLIN[r] / kb * k; });
+  return { clin, cm: CM_RATE_26 * k, ca: CA_RATE_26 * k };
+}
+
+function runScenario(p) {
+  const dem = buildDemand(p), rt = rates(p);
+  const months = MONTHS.map((_, m) => ({ subs: dem.subs[m], consInt: 0, consClin: 0,
+    hrs: { clin:0, cm:0, ca:0 }, cost: { clin:0, cm:0, ca:0 }, hM:0, hO:0, hT:0, topPrem:0, slI:{n:0,d:0,a:0}, slC:{n:0,d:0,a:0} }));
+  const byRegion = { clin:{}, cm:{}, ca:{} };
+  REG.forEach(r => {
+    ['clin','int'].forEach(pool => {
+      const res = runPool(p, dem, pool, r, false);
+      const acc = { clin:{h:0,c:0}, cm:{h:0,c:0}, ca:{h:0,c:0} };
+      res.months.forEach((mm, m) => {
+        const M = months[m];
+        if (pool === 'clin') {
+          const pf = p.paidF.clin[r], rate = rt.clin[r];
+          const hp = (mm.hM + mm.hO + mm.hT) * pf, prem = mm.hT * pf * rate * p.topUpPremium;
+          M.hrs.clin += hp; M.cost.clin += hp * rate + prem; M.topPrem += prem;
+          M.hM += mm.hM * pf; M.hO += mm.hO * pf; M.hT += mm.hT * pf;
+          acc.clin.h += hp; acc.clin.c += hp * rate + prem;
+          M.slC.n += mm.slNum; M.slC.d += mm.den; M.slC.a += mm.asaNum; M.consClin += mm.den;
+        } else {
+          const pfm = p.paidF.cm[r], pfa = p.paidF.ca[r];
+          const hcm = (mm.hM + mm.hO + mm.hT) * pfm, hca = mm.hCA * pfa;
+          const prem = mm.hT * pfm * rt.cm * p.topUpPremium;
+          M.hrs.cm += hcm; M.hrs.ca += hca; M.cost.cm += hcm * rt.cm + prem; M.cost.ca += hca * rt.ca; M.topPrem += prem;
+          M.hM += mm.hM * pfm; M.hO += mm.hO * pfm; M.hT += mm.hT * pfm;
+          acc.cm.h += hcm; acc.cm.c += hcm * rt.cm + prem; acc.ca.h += hca; acc.ca.c += hca * rt.ca;
+          M.slI.n += mm.slNum; M.slI.d += mm.den; M.slI.a += mm.asaNum; M.consInt += mm.den;
+        }
+      });
+      if (pool === 'clin') byRegion.clin[r] = { hrs: acc.clin.h, cost: acc.clin.c };
+      else { byRegion.cm[r] = { hrs: acc.cm.h, cost: acc.cm.c }; byRegion.ca[r] = { hrs: acc.ca.h, cost: acc.ca.c }; }
+    });
+  });
+  const tot = { clin:0, cm:0, ca:0, hrsClin:0, hrsCm:0, hrsCa:0, hM:0, hO:0, hT:0, topPrem:0, sIn:0, sId:0, sCn:0, sCd:0, aI:0, aC:0, consInt:0, consClin:0 };
+  months.forEach(M => {
+    M.slInt = M.slI.d ? M.slI.n / M.slI.d : 1; M.slClin = M.slC.d ? M.slC.n / M.slC.d : 1;
+    M.asaInt = M.slI.d ? M.slI.a / M.slI.d : 0; M.asaClin = M.slC.d ? M.slC.a / M.slC.d : 0;
+    M.fixed = p.stipend / 12 + p.other / 12; M.ah = p.ah / 12;
+    M.pc = M.cost.clin + M.cost.cm + M.cost.ca + M.fixed; M.total = M.pc + M.ah;
+    tot.clin += M.cost.clin; tot.cm += M.cost.cm; tot.ca += M.cost.ca; tot.hrsClin += M.hrs.clin; tot.hrsCm += M.hrs.cm; tot.hrsCa += M.hrs.ca;
+    tot.hM += M.hM; tot.hO += M.hO; tot.hT += M.hT; tot.topPrem += M.topPrem;
+    tot.sIn += M.slI.n; tot.sId += M.slI.d; tot.sCn += M.slC.n; tot.sCd += M.slC.d; tot.aI += M.slI.a; tot.aC += M.slC.a;
+    tot.consInt += M.consInt; tot.consClin += M.consClin;
+  });
+  const fixed = p.stipend + p.other;
+  const pc = tot.clin + tot.cm + tot.ca + fixed;
+  return { months, byRegion, dem,
+    totals: { clin: tot.clin, cm: tot.cm, ca: tot.ca, intake: tot.cm + tot.ca, fixed, pc, ah: p.ah, total: pc + p.ah,
+      hrsClin: tot.hrsClin, hrsCm: tot.hrsCm, hrsCa: tot.hrsCa, hM: tot.hM, hO: tot.hO, hT: tot.hT, topPrem: tot.topPrem,
+      slInt: tot.sId ? tot.sIn / tot.sId : 1, slClin: tot.sCd ? tot.sCn / tot.sCd : 1,
+      asaInt: tot.sId ? tot.aI / tot.sId : 0, asaClin: tot.sCd ? tot.aC / tot.sCd : 0,
+      consInt: tot.consInt, consClin: tot.consClin, subsAvg: dem.subs.reduce((a,b)=>a+b,0)/12 } };
+}
+
+// Detail for the viewer: both supply models for a month/pool/region
+function poolDetail(p, pool, r) {
+  const dem = buildDemand(p), res = runPool(p, dem, pool, r, true), meta = res.meta;
+  const det = [], erl = [];
+  for (let m = 0; m < 12; m++) {
+    det.push(rawRequirement(res.full.lam[m], meta, 'det'));
+    erl.push(rawRequirement(res.full.lam[m], meta, 'erlang'));
+  }
+  return { meta, full: res.full, det, erl, months: res.months };
+}
+
+const clone = o => JSON.parse(JSON.stringify(o));
+
+// Waterfall: sequentially move drivers from a 2026 reference to the scenario
+function waterfall(p, baselineBudget) {
+  const ref = clone(p);
+  ref.subsMode = 'manual'; ref.subsManual = SUBS_2026.slice();
+  ref.utilInt = UTIL_INT_26.slice(); ref.utilClin = UTIL_CLI_26.slice(); ref.utilAdj = 0;
+  ref.autoInt = new Array(12).fill(0); ref.autoClin = new Array(12).fill(0);
+  ref.cph = clone(CPH_BASE); ref.cphUpInt = 0; ref.cphUpClin = 0;
+  ref.slaInt = { pct: 0.80, mins: 5 }; ref.slaClin = { pct: 0.85, mins: 60 }; ref.supplyAdjInt = REF_SUPPLY_ADJ; ref.supplyAdjClin = REF_SUPPLY_ADJ;
+  ref.infl = 0; ref.ah = 1260889.19;
+  const steps = [];
+  let cur = clone(ref); const c0 = runScenario(cur).totals.total;
+  const set = (label, key, fn) => { fn(cur); const c = runScenario(cur).totals.total; steps.push({ label, key, value: c }); };
+  set('Subscriber Lives Growth', 'subs', q => { q.subsMode = p.subsMode; q.subsSeries = p.subsSeries; q.subsManual = p.subsManual; q.subStart = p.subStart; q.growthPct = p.growthPct; });
+  set('Volume Growth / Utilization Shifts', 'util', q => { q.utilInt = p.utilInt.slice(); q.utilClin = p.utilClin.slice(); q.utilAdj = p.utilAdj; });
+  set('Productivity Enhancements (CPH Changes)', 'cph', q => { q.cph = clone(p.cph); q.cphUpInt = p.cphUpInt; q.cphUpClin = p.cphUpClin; });
+  set('Automation Savings (Volume Drops)', 'auto', q => { q.autoInt = p.autoInt.slice(); q.autoClin = p.autoClin.slice(); });
+  set('SLA Adjustments', 'sla', q => { q.slaInt = clone(p.slaInt); q.slaClin = clone(p.slaClin); q.supplyAdjInt = p.supplyAdjInt; q.supplyAdjClin = p.supplyAdjClin; });
+  set('Rate Inflation / COGS Adjustments', 'rate', q => { q.infl = p.infl; q.ah = p.ah; });
+  const rows = []; let prev = c0;
+  const recon = c0 - baselineBudget;
+  steps.forEach(s => { rows.push({ label: s.label, key: s.key, delta: s.value - prev }); prev = s.value; });
+  return { start: baselineBudget, recon, ref: c0, rows, final: prev };
+}
+
+root.Engine = { DIST, REF_SUPPLY_ADJ, MONTHS, DOW, DIM, WEEKS, REG, REG_NAME, PROF, PROFILE_RAW, SUBS_V1, SUBS_V2, SUBS_2026, UTIL_INT_27, UTIL_CLI_27, UTIL_INT_26, UTIL_CLI_26,
+  CPH_BASE, CA_RATIO, PROV_SPLIT, RATE27_CLIN, SHEET_HOURS, DISTN, CONS_INT_27, CONS_CLI_27, CONS_INT_26, CONS_CLI_26,
+  erlangMin, slFrac, runScenario, poolDetail, waterfall, clone, getSubs, buildDemand, runPool, rates };
+if (typeof module !== 'undefined') module.exports = root.Engine;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function () {
+'use strict';
+const { useState, useMemo, useEffect, useRef, useDeferredValue } = React;
+const html = htm.bind(React.createElement);
+const E = window.Engine;
+
+// ---------- formatting ----------
+const fmt0 = n => (isFinite(n) ? Math.round(n).toLocaleString('en-CA') : '–');
+const fmt1 = n => (isFinite(n) ? (+n).toLocaleString('en-CA', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : '–');
+const fmt2 = n => (isFinite(n) ? (+n).toLocaleString('en-CA', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '–');
+const money = n => (n < 0 ? '−' : '') + '$' + Math.abs(Math.round(n)).toLocaleString('en-CA');
+const moneyM = n => (n < 0 ? '−' : '') + '$' + (Math.abs(n) / 1e6).toFixed(2) + 'M';
+const signMoney = n => (Math.round(n) === 0 ? '$0' : (n >= 0 ? '+' : '−') + '$' + Math.abs(Math.round(n)).toLocaleString('en-CA'));
+const signMoneyM = n => (Math.abs(n) < 5000 ? '$0' : (n >= 0 ? '+' : '−') + '$' + (Math.abs(n) / 1e6).toFixed(2) + 'M');
+const pct1 = n => (n * 100).toFixed(1) + '%';
+const pct2 = n => (n * 100).toFixed(2) + '%';
+const sum = a => a.reduce((x, y) => x + y, 0);
+const avg = a => (a.length ? sum(a) / a.length : 0);
+const clone = o => JSON.parse(JSON.stringify(o));
+function setIn(o, path, v) {
+  if (!path.length) return v;
+  const [k, ...rest] = path; const c = Array.isArray(o) ? o.slice() : { ...o };
+  c[k] = setIn(o[k], rest, v); return c;
+}
+
+// ---------- widgets ----------
+function Num({ value, onChange, step = 1, min, max, pct = false, dec = 2, width = 84, suffix }) {
+  const disp = v => (pct ? (v * 100).toFixed(dec) : (+v).toFixed(dec));
+  const [txt, setTxt] = useState(disp(value));
+  const foc = useRef(false);
+  useEffect(() => { if (!foc.current) setTxt(disp(value)); }, [value]);
+  const commit = raw => {
+    let v = parseFloat(raw); if (!isFinite(v)) return;
+    if (min != null && v < min) v = min; if (max != null && v > max) v = max;
+    onChange(pct ? v / 100 : v);
+  };
+  return html`<span className="numwrap"><input className="num" type="number" step=${step} style=${{ width }} value=${txt}
+    onFocus=${() => { foc.current = true; }}
+    onBlur=${() => { foc.current = false; commit(txt); setTxt(disp(value)); }}
+    onChange=${e => { setTxt(e.target.value); const v = parseFloat(e.target.value); if (isFinite(v) && (min == null || v >= min) && (max == null || v <= max)) onChange(pct ? v / 100 : v); }}
+    onKeyDown=${e => { if (e.key === 'Enter') e.target.blur(); }} />${suffix ? html`<span className="suf">${suffix}</span>` : null}</span>`;
+}
+function Seg({ value, onChange, options }) {
+  return html`<div className="seg">${options.map(o => html`<button key=${o.v} className=${value === o.v ? 'on' : ''} onClick=${() => onChange(o.v)}>${o.l}</button>`)}</div>`;
+}
+function Card({ title, sub, children, right, className = '' }) {
+  return html`<section className=${'card ' + className}><div className="cardhead"><div><h3>${title}</h3>${sub ? html`<p className="sub">${sub}</p>` : null}</div>${right || null}</div>${children}</section>`;
+}
+function Field({ label, children, hint }) {
+  return html`<label className="field"><span className="flabel">${label}${hint ? html`<em>${hint}</em>` : null}</span>${children}</label>`;
+}
+function Stat({ label, value, sub, tone }) {
+  return html`<div className=${'stat ' + (tone || '')}><div className="slabel">${label}</div><div className="sval">${value}</div>${sub ? html`<div className="ssub">${sub}</div>` : null}</div>`;
+}
+function Slider({ value, onChange, min, max, step, fmt }) {
+  return html`<span className="sliderwrap"><input type="range" min=${min} max=${max} step=${step} value=${value} onChange=${e => onChange(parseFloat(e.target.value))} /><b>${fmt ? fmt(value) : value}</b></span>`;
+}
+
+// ---------- charts ----------
+const PAL = ['var(--c1)', 'var(--c2)', 'var(--c3)', 'var(--c4)', 'var(--c5)', 'var(--c6)'];
+function niceMax(v) {
+  if (v <= 0) return 1; const e = Math.pow(10, Math.floor(Math.log10(v))); const f = v / e;
+  return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * e;
+}
+function wrapText(s, max) {
+  const words = s.split(' '), lines = []; let cur = '';
+  words.forEach(w => { if ((cur + ' ' + w).trim().length > max && cur) { lines.push(cur); cur = w; } else cur = (cur + ' ' + w).trim(); });
+  if (cur) lines.push(cur); return lines;
+}
+function Legend({ items }) {
+  return html`<div className="legend">${items.map((s, i) => html`<span key=${i}><i style=${{ background: s.color || PAL[i % 6], opacity: s.type === 'line' || s.type === 'step' ? 1 : 0.9, height: s.type === 'line' || s.type === 'step' ? 3 : 10, borderTop: s.dash ? '2px dashed ' + (s.color || PAL[i % 6]) : 'none' }}></i>${s.name}</span>`)}</div>`;
+}
+// Generic multi-series chart: types bar | stack | line | step ; axis l | r
+function Chart({ labels, series, h = 250, yFmt = fmt0, y2Fmt = fmt0, y2Min = 0, y2Max, xEvery = 1, yMax, refL = [], refR = [], note }) {
+  const W = 780, H = h, hasR = series.some(s => s.axis === 'r'), pl = 58, pr = hasR ? 52 : 14, pt = 10, pb = 28;
+  const n = labels.length, iw = W - pl - pr, ih = H - pt - pb, bw = iw / n;
+  const stacks = series.filter(s => s.type === 'stack'), bars = series.filter(s => s.type === 'bar');
+  let maxL = 0, maxR = 0;
+  for (let i = 0; i < n; i++) { let t = 0; stacks.forEach(s => { t += s.values[i] || 0; }); if (t > maxL) maxL = t; }
+  series.forEach(s => { if (s.type === 'stack') return; const mx = Math.max(0, ...s.values.map(v => v || 0)); if (s.axis === 'r') maxR = Math.max(maxR, mx); else maxL = Math.max(maxL, mx); });
+  refL.forEach(r => { maxL = Math.max(maxL, r.v); });
+  maxL = yMax != null ? yMax : niceMax(maxL * 1.04); maxR = y2Max != null ? y2Max : niceMax(maxR * 1.04);
+  const X = i => pl + (i + 0.5) * bw, yL = v => pt + ih - (v / maxL) * ih, yR = v => pt + ih - ((v - y2Min) / (maxR - y2Min)) * ih;
+  const ticks = [0, 1, 2, 3, 4].map(k => k / 4);
+  const els = [];
+  ticks.forEach((t, k) => {
+    const y = pt + ih - t * ih;
+    els.push(html`<line key=${'g' + k} x1=${pl} x2=${W - pr} y1=${y} y2=${y} className="grid" />`);
+    els.push(html`<text key=${'tl' + k} x=${pl - 6} y=${y + 3} textAnchor="end" className="tick">${yFmt(t * maxL)}</text>`);
+    if (hasR) els.push(html`<text key=${'tr' + k} x=${W - pr + 6} y=${y + 3} className="tick">${y2Fmt(y2Min + t * (maxR - y2Min))}</text>`);
+  });
+  labels.forEach((l, i) => { if (i % xEvery === 0) els.push(html`<text key=${'x' + i} x=${X(i)} y=${H - 10} textAnchor="middle" className="tick">${l}</text>`); });
+  // stacked
+  stacks.forEach((s, si) => {});
+  for (let i = 0; i < n; i++) {
+    let acc = 0;
+    stacks.forEach((s, si) => {
+      const v = s.values[i] || 0; if (v <= 0) { return; }
+      const y0 = yL(acc), y1 = yL(acc + v); acc += v;
+      els.push(html`<rect key=${'s' + si + '_' + i} x=${X(i) - bw * 0.36} width=${bw * 0.72} y=${y1} height=${Math.max(0, y0 - y1)} style=${{ fill: s.color || PAL[si % 6] }}><title>${labels[i] + ' · ' + s.name + ': ' + yFmt(v)}</title></rect>`);
+    });
+  }
+  bars.forEach((s, bi) => {
+    const nb = bars.length, w = (bw * 0.78) / nb;
+    s.values.forEach((v, i) => { if (!(v > 0)) return; const x = X(i) - bw * 0.39 + bi * w; const y = (s.axis === 'r' ? yR : yL)(v);
+      els.push(html`<rect key=${'b' + bi + '_' + i} x=${x} width=${Math.max(1, w - 1)} y=${y} height=${Math.max(0, pt + ih - y)} style=${{ fill: s.color || PAL[bi % 6], opacity: s.opacity || 0.85 }}><title>${labels[i] + ' · ' + s.name + ': ' + yFmt(v)}</title></rect>`); });
+  });
+  series.filter(s => s.type === 'line' || s.type === 'step').forEach((s, li) => {
+    const Y = s.axis === 'r' ? yR : yL; let d = '';
+    if (s.type === 'step') s.values.forEach((v, i) => { const x0 = X(i) - bw / 2, x1 = X(i) + bw / 2, y = Y(v || 0); d += (i === 0 ? 'M' : 'L') + x0 + ',' + y + 'L' + x1 + ',' + y; });
+    else s.values.forEach((v, i) => { d += (i === 0 ? 'M' : 'L') + X(i) + ',' + Y(v || 0); });
+    els.push(html`<path key=${'l' + li} d=${d} fill="none" strokeWidth=${s.w || 2.2} strokeLinejoin="round" strokeDasharray=${s.dash ? '5 4' : null} style=${{ stroke: s.color || PAL[li % 6] }} />`);
+    if (s.type === 'line' && n <= 14) s.values.forEach((v, i) => els.push(html`<circle key=${'p' + li + '_' + i} cx=${X(i)} cy=${Y(v || 0)} r="3" style=${{ fill: s.color || PAL[li % 6] }}><title>${labels[i] + ' · ' + s.name + ': ' + (s.axis === 'r' ? y2Fmt : yFmt)(v)}</title></circle>`));
+  });
+  refL.forEach((r, i) => els.push(html`<line key=${'rl' + i} x1=${pl} x2=${W - pr} y1=${yL(r.v)} y2=${yL(r.v)} className="ref" /><text key=${'rt' + i} x=${pl + 4} y=${yL(r.v) - 3} className="tick" style=${{ fill: 'var(--bad)' }}>${r.label}</text>`));
+  refR.forEach((r, i) => els.push(html`<line key=${'rr' + i} x1=${pl} x2=${W - pr} y1=${yR(r.v)} y2=${yR(r.v)} className="ref" /><text key=${'rrt' + i} x=${W - pr - 4} y=${yR(r.v) - 3} textAnchor="end" className="tick" style=${{ fill: 'var(--bad)' }}>${r.label}</text>`));
+  return html`<div className="chartbox"><${Legend} items=${series.map((s, i) => ({ name: s.name, color: s.color || PAL[i % 6], type: s.type, dash: s.dash }))} />
+    <div className="svgscroll"><svg viewBox=${'0 0 ' + W + ' ' + H} style=${{ minWidth: 380 }} role="img">${els}</svg></div>${note ? html`<p className="chartnote">${note}</p>` : null}</div>`;
+}
+
+// Waterfall chart (truncated axis)
+function WaterfallChart({ items }) {
+  const W = 780, H = 360, pl = 64, pr = 14, pt = 24, pb = 74, n = items.length, iw = W - pl - pr, ih = H - pt - pb, bw = iw / n;
+  let run = 0; const lev = [], after = [];
+  items.forEach(it => { if (it.kind === 'total') { it.lo = 0; it.hi = it.value; run = it.value; } else { const a = run, b = run + it.value; it.lo = Math.min(a, b); it.hi = Math.max(a, b); run = b; } lev.push(it.lo, it.hi); after.push(run); });
+  const mn = Math.min(...items.map(i => Math.min(i.lo, i.hi)).filter((v, k) => items[k].kind !== 'total'), ...items.filter(i => i.kind === 'total').map(i => i.value));
+  const mx = Math.max(...items.map(i => i.hi));
+  const rng = Math.max(mx - mn, 5e5), lo = Math.floor((mn - rng * 0.5) / 5e5) * 5e5, hi = Math.ceil((mx + rng * 0.18) / 5e5) * 5e5;
+  const Y = v => pt + ih - ((v - lo) / (hi - lo)) * ih, X = i => pl + i * bw + bw / 2;
+  const els = [];
+  for (let k = 0; k <= 5; k++) { const v = lo + (hi - lo) * k / 5, y = Y(v);
+    els.push(html`<line key=${'g' + k} x1=${pl} x2=${W - pr} y1=${y} y2=${y} className="grid" />`);
+    els.push(html`<text key=${'t' + k} x=${pl - 6} y=${y + 3} textAnchor="end" className="tick">${'$' + (v / 1e6).toFixed(1) + 'M'}</text>`); }
+  let prevTop = null;
+  items.forEach((it, i) => {
+    const x = X(i) - bw * 0.34, w = bw * 0.68, y1 = Y(it.kind === 'total' ? it.value : it.hi), y2 = Y(it.kind === 'total' ? lo : it.lo);
+    const col = it.kind === 'total' ? 'var(--c1)' : it.kind === 'recon' ? 'var(--mute)' : it.value >= 0 ? 'var(--bad)' : 'var(--good)';
+    els.push(html`<rect key=${'r' + i} x=${x} y=${y1} width=${w} height=${Math.max(2, y2 - y1)} rx="2" style=${{ fill: col, opacity: it.kind === 'recon' ? 0.55 : 0.92 }}><title>${it.label + ': ' + (it.kind === 'total' ? money(it.value) : signMoney(it.value))}</title></rect>`);
+    const lbl = it.kind === 'total' ? moneyM(it.value) : signMoneyM(it.value);
+    els.push(html`<text key=${'v' + i} x=${X(i)} y=${y1 - 5} textAnchor="middle" className="wval">${lbl}</text>`);
+    wrapText(it.label, 15).forEach((ln, k) => els.push(html`<text key=${'xl' + i + '_' + k} x=${X(i)} y=${H - pb + 16 + k * 12} textAnchor="middle" className="tick">${ln}</text>`));
+    if (i < n - 1) { const yy = Y(after[i]); els.push(html`<line key=${'c' + i} x1=${x + w} x2=${X(i + 1) - bw * 0.34} y1=${yy} y2=${yy} className="conn" />`); }
+  });
+  return html`<div className="chartbox"><div className="legend"><span><i style=${{ background: 'var(--c1)' }}></i>Budget total</span><span><i style=${{ background: 'var(--bad)' }}></i>Cost increase</span><span><i style=${{ background: 'var(--good)' }}></i>Cost reduction</span><span><i style=${{ background: 'var(--mute)' }}></i>Reconciliation</span></div>
+  <div className="svgscroll"><svg viewBox=${'0 0 ' + W + ' ' + H} style=${{ minWidth: 640 }} role="img">${els}</svg></div><p className="chartnote">Vertical axis is truncated (starts at ${'$' + (lo / 1e6).toFixed(1) + 'M'}) so the driver steps are visible.</p></div>`;
+}
+
+function Heat({ data, fmt, max, hue = 'blue', rowLabels, title }) {
+  const mx = max != null ? max : Math.max(1e-9, ...data.flat());
+  const cell = (v, k) => { const a = Math.min(1, Math.max(0, v / mx)); const bg = hue === 'blue' ? `rgba(47,111,214,${0.07 + a * 0.85})` : `rgba(31,157,99,${0.07 + a * 0.85})`;
+    return html`<div key=${k} className="hc" style=${{ background: bg, color: a > 0.55 ? '#fff' : 'var(--ink)' }} title=${fmt(v)}>${fmt(v)}</div>`; };
+  return html`<div className="heat" style=${{ gridTemplateColumns: '38px repeat(24,1fr)' }}>
+    <div className="hl"></div>${Array.from({ length: 24 }, (_, h) => html`<div key=${'h' + h} className="hh">${h}</div>`)}
+    ${data.map((row, d) => [html`<div key=${'r' + d} className="hl">${rowLabels[d]}</div>`].concat(row.map((v, h) => cell(v, d + '_' + h))))}</div>`;
+}
+
+window.UI = { html, fmt0, fmt1, fmt2, money, moneyM, signMoney, signMoneyM, pct1, pct2, sum, avg, clone, setIn, Num, Seg, Card, Field, Stat, Slider, Chart, WaterfallChart, Heat, PAL };
+})();
+
+</script>
+<script>
+(function (root) {
+'use strict';
+const E = root.Engine;
+const MONTHS = E.MONTHS, DOW = E.DOW, DIM = E.DIM, WEEKS = E.WEEKS;
+const clone = o => JSON.parse(JSON.stringify(o));
+
+// weekday counts per month (rows Sun..Sat) — 'Number of Weekdays in Month' tab
+const WD = [[5,4,4,4,5,4,4,5,4,5,4,4],[4,4,5,4,5,4,4,5,4,4,5,4],[4,4,5,4,4,5,4,5,4,4,5,4],[4,4,5,4,4,5,4,4,5,4,4,5],[4,4,4,5,4,4,5,4,5,4,4,5],[5,4,4,5,4,4,5,4,4,5,4,5],[5,4,4,4,5,4,5,4,4,5,4,4]];
+const WORKDAYS = MONTHS.map((_, m) => WD[1][m] + WD[2][m] + WD[3][m] + WD[4][m] + WD[5][m]);
+
+const REGIONS = ['PR','BC','ATL','ON','QC'];
+const REG_NAME = { PR:'AB/SK/MB/Terr', BC:'BC', ATL:'NS/NB/PE/NL', ON:'ON', QC:'QC' };
+// clinical provinces in sheet order. type: profiled (demand-profile staffed) | fixed (hours of operation only) | stipend
+const PROVS = ['QC','ON','BC','AB','NB','NL','NS','MB','SK','PE','NT','NU','YT'];
+const PROV = {
+  QC:{ region:'QC', prof:'QC', type:'profiled', tz:0 }, ON:{ region:'ON', prof:'ON', type:'profiled', tz:0 }, BC:{ region:'BC', prof:'BC', type:'profiled', tz:-3 },
+  AB:{ region:'PR', prof:'AB', type:'profiled', tz:-2 }, NB:{ region:'ATL', prof:'ATL', type:'profiled', tz:0 }, NL:{ region:'ATL', prof:'ATL', type:'profiled', tz:0 }, NS:{ region:'ATL', prof:'ATL', type:'profiled', tz:0 },
+  MB:{ region:'PR', type:'fixed' }, SK:{ region:'PR', type:'fixed' }, PE:{ region:'ATL', type:'fixed' },
+  NT:{ region:'PR', type:'stipend' }, NU:{ region:'PR', type:'stipend' }, YT:{ region:'PR', type:'stipend' } };
+const INT_TZ = { QC:0, ON:0, BC:-3, PR:-2, ATL:0 };
+
+// ---- hourly distributions (EST row order 0..23, columns SUN..SAT; % of weekly volume) ----
+const R = s => s.trim().split('\n').map(l => l.trim().split(/\s+/).map(Number));
+const RAW = { clin: {}, int: {} };
+RAW.clin.QC = R(`.15 .19 .13 .13 .13 .07 .19
+.15 .08 .08 .05 .04 .15 .09
+.28 .02 .05 .05 .05 .04 .04
+.06 .04 .08 .06 .03 .06 .05
+.03 .03 .05 .02 .06 .04 .05
+.16 .28 .22 .24 .30 .25 .15
+.78 .95 .93 .90 .96 .99 .72
+.84 1.19 1.29 1.10 1.12 1.12 .89
+1.09 1.87 1.81 1.72 1.54 1.74 1.40
+1.08 1.74 1.63 1.48 1.47 1.54 1.10
+.76 1.69 1.37 1.40 1.30 1.48 .93
+.58 1.56 1.38 1.28 1.16 1.31 .67
+.42 1.46 1.29 1.15 1.15 1.24 .62
+.41 1.22 1.09 1.10 .95 1.04 .68
+.39 1.07 1.00 .87 .88 1.05 .41
+.31 .93 .78 .68 .77 .70 .38
+.35 .83 .89 .65 .75 .59 .29
+.33 .84 .91 .60 .65 .39 .30
+.31 .54 .67 .56 .41 .38 .24
+.26 .44 .46 .42 .37 .32 .17
+.25 .31 .32 .35 .32 .28 .20
+.19 .20 .25 .19 .22 .17 .09
+.17 .17 .24 .29 .18 .17 .14
+.17 .11 .20 .16 .08 .14 .12`);
+RAW.clin.ON = R(`.15 .18 .12 .11 .11 .17 .16
+.11 .07 .09 .09 .05 .04 .09
+.04 .05 .04 .03 .07 .04 .07
+.04 .03 .05 .01 .07 .03 .05
+.04 .05 .03 .04 .06 .06 .09
+.10 .16 .07 .09 .11 .14 .15
+.18 .39 .30 .29 .30 .30 .20
+.31 .49 .70 .49 .67 .55 .53
+.86 1.18 1.08 1.13 1.11 1.13 .74
+.95 1.50 1.27 1.02 .96 1.22 .93
+.91 1.36 1.30 1.07 1.21 1.30 .99
+1.11 1.49 1.34 1.33 1.45 1.28 .92
+.90 1.30 1.30 1.11 1.15 1.24 .92
+.74 1.22 1.00 1.03 .99 1.22 .68
+.76 1.24 1.01 1.14 .85 .86 .68
+.74 1.00 .92 1.01 .81 .95 .49
+.51 1.27 1.11 1.12 .95 1.09 .58
+.45 1.06 .78 .83 .88 .74 .34
+.68 1.01 .86 .97 .90 .68 .45
+.51 .87 .71 .56 .77 .50 .36
+.55 .72 .78 .65 .49 .33 .45
+.36 .41 .57 .52 .43 .33 .27
+.23 .29 .32 .33 .30 .20 .26
+.14 .18 .13 .20 .18 .18 .15`);
+RAW.clin.BC = R(`.31 .66 .72 .57 .53 .63 .37
+.34 .42 .66 .77 .78 .76 .56
+.17 .20 .34 .43 .31 .34 .37
+.09 .08 .14 .09 .07 .05 .14
+.04 0 .05 .05 .05 .01 .12
+0 .03 .03 .04 .03 .01 .05
+.03 .01 .08 .03 .01 .07 .03
+.04 .03 .05 .01 .05 .05 .04
+.13 .10 .27 .20 .04 .13 .12
+.33 .35 .60 .48 .46 .38 .26
+.30 .53 .66 .60 .56 .48 .31
+.70 .96 .95 1.17 1.03 .96 .68
+.77 1.00 .95 1.34 1.08 .95 .74
+.66 1.17 .94 1.20 1.11 1.11 .63
+1.02 1.06 1.16 1.19 .82 1.23 .85
+.98 1.08 1.19 1.28 .81 1.17 .77
+.81 1.04 .89 1.11 .63 .95 .80
+.77 1.38 .99 .89 1.02 1.00 .61
+.68 1.16 .82 .91 .77 .76 .50
+.77 .98 .87 .95 1.11 .85 .72
+.64 .89 .76 1.02 .82 .80 .48
+.76 1.11 .99 1.03 .98 .81 .55
+.51 .89 .90 .70 .64 .63 .38
+.52 .80 .78 .81 .83 .64 .70`);
+RAW.clin.AB = R(`.04 .14 .25 .11 .07 .21 .14
+.14 .14 .25 .14 .14 .04 .04
+0 .04 .21 .04 .04 .04 .07
+.07 .04 .04 .04 .04 .11 .07
+.07 0 0 .07 0 .07 .04
+.04 0 0 .04 0 .04 0
+0 .07 .07 .14 .07 .04 .04
+0 .14 .32 .11 .07 .11 .07
+.28 .32 .28 .35 .39 .63 .21
+.32 .49 .88 .67 .42 .78 .49
+.67 1.27 1.48 1.38 .63 .63 .53
+1.02 1.16 1.48 1.16 .74 .92 .71
+.74 1.83 1.76 .95 .74 1.27 .81
+1.16 1.48 1.23 1.45 1.31 1.38 .95
+1.06 .85 1.23 .99 1.09 1.31 .67
+1.06 1.09 1.45 .99 1.02 .88 .88
+.88 1.41 1.41 1.20 .78 .85 .60
+.42 1.13 1.06 1.34 1.23 .74 .53
+.56 .88 1.13 .92 .74 .60 .74
+.78 1.62 .92 1.23 .71 .85 .42
+.81 1.06 1.31 .88 1.09 .81 .35
+.46 1.13 1.20 .74 .71 .63 .56
+.60 .42 .71 .81 .67 .39 .21
+.32 .46 .56 .35 .25 .39 .25`);
+RAW.clin.ATL = R(`.01 .03 .02 .01 .06 .03 .01
+.03 .01 0 .01 .02 0 .01
+.02 .02 0 .02 .02 .01 .05
+.04 .02 .02 .03 .03 .04 0
+.03 .06 .05 .05 .07 .07 .01
+.06 .08 .09 .07 .09 .13 .03
+.12 .09 .16 .21 .13 .18 .08
+.28 .46 .76 .75 .56 .64 .46
+.79 1.38 1.49 1.63 1.42 1.55 .80
+.92 1.62 1.30 1.49 1.16 1.23 .77
+.79 1.37 1.18 1.19 1.22 1.27 .81
+.90 1.42 1.40 1.32 1.28 1.23 .70
+.73 1.26 1.33 1.38 1.13 1.29 .77
+.87 1.24 1.25 1.36 1.01 1.17 .64
+.69 1.43 1.29 1.33 1.21 1.00 .58
+.65 1.18 1.13 1.22 1.12 1.01 .53
+.81 1.27 1.55 1.28 .98 .97 .49
+.56 1.06 1.28 1.04 .95 .82 .39
+.58 1.24 .85 .97 1.09 .58 .54
+.45 .73 .66 .83 .77 .51 .40
+.44 .68 .81 .64 .55 .38 .27
+.16 .28 .29 .24 .33 .26 .18
+.04 .12 .12 .12 .08 .05 .06
+.03 .02 .05 .11 .08 .07 .03`);
+RAW.int.QC = E.PROFILE_RAW.map(r => r.slice());
+RAW.int.ON = R(`.11 .14 .13 .12 .12 .09 .12
+.08 .08 .07 .10 .08 .07 .10
+.07 .07 .04 .05 .05 .06 .06
+.05 .04 .05 .06 .08 .04 .05
+.04 .05 .05 .05 .06 .07 .03
+.04 .09 .10 .09 .10 .10 .08
+.12 .23 .21 .17 .19 .16 .13
+.27 .55 .46 .39 .39 .39 .29
+.67 1.03 1.15 1.05 .98 1.04 .73
+.87 1.46 1.42 1.34 1.19 1.33 .83
+.77 1.47 1.27 1.33 1.19 1.18 .91
+.98 1.40 1.36 1.38 1.29 1.06 .86
+.81 1.39 1.27 1.24 1.09 1.05 .73
+.76 1.18 1.08 1.18 .98 1.10 .74
+.65 1.22 1.17 1.09 .91 .97 .68
+.66 1.07 1.04 1.01 1.00 .94 .58
+.64 1.11 1.13 1.02 1.02 .87 .65
+.64 1.08 1.10 .96 .87 .70 .47
+.63 1.00 .92 .87 .86 .68 .48
+.52 .87 .92 .83 .79 .61 .46
+.57 .72 .69 .79 .56 .40 .41
+.40 .52 .54 .56 .41 .34 .28
+.32 .37 .45 .39 .31 .27 .22
+.22 .27 .23 .25 .22 .23 .19`);
+RAW.int.BC = R(`.21 .38 .52 .52 .40 .26 .37
+.14 .23 .39 .22 .34 .25 .18
+.15 .15 .13 .14 .17 .13 .13
+.05 .06 .17 .09 .05 .05 .13
+.05 .01 .05 .02 .06 .01 .12
+0 .04 .05 .05 .01 .02 .03
+.03 .01 .05 .01 .03 .07 .01
+.05 .05 .05 .05 .05 .04 .04
+.10 .09 .25 .15 .08 .13 .09
+.25 .25 .44 .36 .23 .36 .22
+.47 .73 .70 .73 .74 .59 .29
+.85 .94 .93 1.15 .86 1.04 .76
+.92 1.51 1.26 1.55 1.28 1.11 .84
+1.05 1.62 1.38 1.33 1.43 1.41 1.03
+1.21 1.29 1.33 1.43 1.22 1.40 1.04
+.84 1.50 1.31 1.14 1.13 1.21 .96
+.74 1.37 1.13 1.24 1.03 1.13 .71
+.82 1.22 1.21 1.17 .90 .91 .76
+.74 1.16 1.16 1.02 .88 .80 .53
+.72 1.10 .90 .98 .89 .84 .49
+.42 .90 1.03 .95 .82 .69 .64
+.54 .72 .79 .82 .66 .61 .55
+.54 .90 .73 .62 .66 .45 .41
+.44 .48 .74 .64 .53 .38 .31`);
+RAW.int.PR = R(`.03 .22 .25 .23 .13 .23 .22
+.20 .06 .17 .15 .20 .09 .04
+.03 .13 .12 .10 .06 .07 .09
+.10 .07 .01 .06 .07 .09 .13
+.06 .03 .06 .03 .07 .10 .03
+.03 .03 .06 .04 .09 .04 .03
+.03 .06 .03 .12 .06 .10 .03
+0 .10 .15 .17 .15 .07 .07
+.13 .25 .39 .26 .42 .54 .16
+.33 .61 .73 .71 .51 .63 .25
+.60 1.22 1.19 1.09 .99 1.03 .61
+.78 1.31 1.29 1.22 1.18 1.16 .80
+.63 1.48 1.38 1.24 1.24 1.21 .89
+.77 1.44 1.50 1.41 1.32 1.51 .93
+.68 1.13 1.13 1.35 1.25 1.34 .80
+.80 1.26 1.47 1.02 .96 1.13 .64
+.70 1.35 1.16 1.16 1.03 1.16 .63
+.58 1.12 1.19 1.16 1.10 1.26 .60
+.61 .93 1.57 1.05 1.10 .93 .68
+.60 1.12 .89 1.05 .77 .71 .38
+.63 .80 1.06 1.12 .96 .61 .44
+.35 .71 .70 .80 .70 .68 .52
+.44 .42 .42 .57 .67 .44 .29
+.25 .38 .35 .39 .32 .51 .39`);
+RAW.int.ATL = R(`.06 .06 .05 .06 .06 .05 .02
+.05 .04 .04 .07 .06 0 .04
+.06 .05 .05 .01 .03 .02 .03
+.03 .04 .01 .03 .06 .09 .03
+.05 .06 .07 .07 .08 .04 .01
+.07 .22 .24 .25 .24 .24 .06
+.17 .35 .58 .48 .47 .51 .22
+.40 .80 .95 1.06 .85 .93 .53
+.81 1.54 1.39 1.28 1.29 1.26 .73
+.68 1.53 1.49 1.24 1.32 1.13 .82
+.87 1.36 1.39 1.31 1.31 1.13 .81
+.96 1.35 1.47 1.54 1.39 1.27 .63
+.62 1.41 1.20 1.29 1.12 1.05 .63
+.81 1.23 1.19 1.22 1.04 1.04 .59
+.75 1.23 1.45 1.15 1.16 1.03 .52
+.74 1.27 1.14 .98 .96 .99 .47
+.57 1.04 1.33 1.09 .93 .97 .55
+.55 1.17 1.16 .99 .87 .63 .47
+.51 .96 .74 .82 .83 .63 .45
+.37 .78 .65 .69 .67 .42 .33
+.37 .47 .60 .47 .47 .34 .22
+.23 .27 .30 .25 .28 .23 .17
+.10 .10 .17 .13 .13 .12 .07
+.09 .10 .08 .08 .08 .07 .08`);
+// flatten rows(hour) x cols(dow) -> index d*24+h
+const flat = rows => { const a = new Array(168); for (let d = 0; d < 7; d++) for (let h = 0; h < 24; h++) a[d*24+h] = rows[h][d]; return a; };
+const PROF_DEFAULT = { clin: {}, int: {} };
+['QC','ON','BC','AB','ATL'].forEach(k => { PROF_DEFAULT.clin[k] = flat(RAW.clin[k]); });
+['QC','ON','BC','PR','ATL'].forEach(k => { PROF_DEFAULT.int[k] = flat(RAW.int[k]); });
+const normProf = a => { const t = a.reduce((x, y) => x + y, 0) || 1; return Float64Array.from(a, v => v / t); };
+
+// ---- forecast (Weekly Forecast Importrange) ----
+const W_CLIN = { PR:[465,456,459,446,396,413,413,421,454,435,445,535], BC:[611,606,608,589,551,570,572,557,571,561,627,598], ATL:[723,722,757,730,684,708,679,659,701,718,736,737], ON:[1808,1883,1867,1827,1723,1726,1785,1669,1883,1846,1943,2103], QC:[3231,3246,3134,3214,2922,2947,2996,2847,3168,3224,3330,3498] };
+const W_INT = { PR:[495,494,524,485,443,474,544,473,511,453,477,588], BC:[698,649,677,679,654,698,712,647,699,670,670,699], ATL:[713,685,762,699,661,687,633,605,652,667,652,675], ON:[1969,1856,2003,2009,1922,1991,2144,2077,2108,2061,2056,2517], QC:[3976,4068,4037,3895,3698,3752,3957,3910,4071,3989,4237,4521] };
+const LOC = { // locality share of region (monthly), clinical
+  PR:{ AB:[65.48,64.68,65.22,67.09,67.37,66.47,68.83,69.48,68.83,66.68,65.19,63.62], MB:[13.44,14.56,13.73,12.39,11.84,15.72,13.02,12.28,13.25,14.42,15.30,14.72], NT:[1.01,1.01,1.22,.96,1.42,1.19,1.28,1.06,1.13,1.09,1.04,1.08], NU:[.62,.34,.66,.44,.61,.50,.50,.39,.59,.55,.40,.77], SK:[18.71,18.80,18.59,18.87,18.07,15.53,15.47,16.18,15.61,16.77,17.78,19.23], YT:[.74,.61,.59,.26,.69,.58,.89,.61,.59,.49,.29,.59] },
+  ATL:{ NB:[21.22,20.74,21.39,21.97,22.39,20.58,23.45,23.14,20.09,20.85,21.04,22.81], NL:[44.38,45.40,45.39,47.64,47.08,46.99,44.32,42.51,45.43,47.25,46.52,46.73], NS:[27.29,26.52,26.74,24.24,24.16,26.07,25.14,27.22,26.45,24.75,25.38,24.31], PE:[7.11,7.35,6.48,6.15,6.37,6.36,7.09,7.13,8.03,7.15,7.06,6.14] } };
+const OCC = { clin:{ PR:[27,27,27,26,26,26,27,27,26,27,27,26], BC:[41,37,38,37,37,35,38,41,40,41,38,38], ATL:[24,25,23,22,22,24,24,24,24,25,23,23], ON:[42,42,41,41,43,42,41,42,41,41,41,40], QC:[54,56,56,58,59,60,56,53,55,55,56,54] },
+  int:{ PR:[26,26,25,26,25,24,25,25,25,26,26,26], BC:[30,30,28,29,26,25,26,26,26,30,30,30], ATL:[31,32,31,30,28,30,28,28,28,31,31,31], ON:[42,41,42,41,39,38,39,39,39,42,42,42], QC:[61,56,53,51,52,52,52,52,52,61,61,61] } };
+const RATE_CLIN = { QC:139.05, ON:96.63, BC:110.71, AB:92.62, NB:95.44, NL:95.44, NS:95.44, MB:92.62, SK:92.62, PE:95.44, NT:0, NU:0, YT:0 };
+const SUPPLY = { QC:.96, ON:.95, BC:.90, AB:.90, NB:.90, NL:.90, NS:.90 };
+const FTE_CLIN = { QC:[192,11], ON:[90,11.5], BC:[34,10.5], AB:[20,12], NB:[12,17], NL:[11,13.5], NS:[18,9.5], MB:[0,12], SK:[0,12], PE:[0,12] };
+const FTE_CM = { QC:[151,13.5], ON:[84,19.4], BC:[28,13], PR:[28,12.6], ATL:[19,11.7] };
+const FTE_CA = { QC:[22,37.5], ON:[22,37.5], BC:[5.6,37.5], PR:[2,37.5], ATL:[8,37.5] };
+const CMCA = { PR:2.0, BC:2.0, ATL:1.8, ON:1.4, QC:1.9 };
+
+function fteRow(hc, avg) { return { start: hc, avg: new Array(12).fill(avg), attr: new Array(12).fill(0), hires: new Array(12).fill(0) }; }
+// Shift blocks [start hour (local label), hours covered] per tab (Staffing Required by Blocks tables)
+const BQ = [[0,6],[6,2],[8,3],[11,3],[14,2],[16,2],[18,2],[20,2],[22,2]];
+const BBC = [[0,3],[3,3],[6,2],[8,3],[11,3],[14,2],[16,2],[18,2],[20,2],[22,2]];
+const BAB = [[0,0],[3,0],[6,2],[8,3],[11,3],[14,2],[16,2],[18,2],[20,2],[22,2]];
+const BAT = [[0,0],[6,0],[8,3],[11,3],[14,2],[16,2],[18,2],[20,2],[22,0]];
+const DEFAULT_BLOCKS = { clin:{ QC:BQ, ON:BQ, BC:BBC, AB:BAB, NB:BAT, NL:BAT, NS:BAT, MB:BAT, SK:BAT, PE:BAT }, int:{ QC:BBC, ON:BBC, BC:BBC, PR:BBC, ATL:BBC } };
+const PROF_FOR = { clin:{ MB:'AB', SK:'AB', PE:'ATL' } };
+
+function mkPlan() {
+  const fte = { clin:{}, cm:{}, ca:{} };
+  Object.keys(FTE_CLIN).forEach(k => { fte.clin[k] = fteRow(FTE_CLIN[k][0], FTE_CLIN[k][1]); });
+  Object.keys(FTE_CM).forEach(k => { fte.cm[k] = fteRow(FTE_CM[k][0], FTE_CM[k][1]); fte.ca[k] = fteRow(FTE_CA[k][0], FTE_CA[k][1]); });
+  const availC = { QC:.95, ON:.90, BC:.85, AB:.88, NB:.80, NL:.80, NS:.80, MB:1, SK:1, PE:1 };
+  const blocks = {}; Object.keys(DEFAULT_BLOCKS.clin).forEach(k => { blocks['clin:' + k] = clone(DEFAULT_BLOCKS.clin[k]); }); Object.keys(DEFAULT_BLOCKS.int).forEach(k => { blocks['int:' + k] = clone(DEFAULT_BLOCKS.int[k]); });
+  return { id:'p1', name:'RD1.V10B · base inputs', mode:'lives',
+    manualClin: Object.fromEntries(PROVS.map(p => [p, MONTHS.map((_, m) => baseWeeklyClin(p, m))])),
+    manualInt: clone(W_INT), weeklyOv:{}, volAdj:{ clin:0, int:0 },
+    loc: clone(LOC),
+    lives:{ subs:E.SUBS_V1.slice(), subsMode:'series', subsManual:E.SUBS_V1.slice(), subStart:E.SUBS_V1[0], growthPct:0.0662, utilInt:E.UTIL_INT_27.slice(), utilClin:E.UTIL_CLI_27.slice(), autoInt:new Array(12).fill(0), autoClin:new Array(12).fill(0), dist:{ int: clone(E.DIST.int), clin: clone(E.DIST.clin) } },
+    cph:{ clin: Object.fromEntries(REGIONS.map(r => [r, new Array(12).fill(E.CPH_BASE.clin[r])])), int: Object.fromEntries(REGIONS.map(r => [r, new Array(12).fill(E.CPH_BASE.int[r])])) }, cphUp:{ clin:0, int:0 }, cphProv:{},
+    occ: clone(OCC), sla:{ clin:{ pct:.85, mins:30 }, int:{ pct:.80, mins:5 } }, slaProv:{},
+    supplyModel:'sheet', slaMethod:'sheet', slaBasis:'reduced', slaCap:.95, peak:{ t1:10, t2:18, f1:1.15, f2:1.30 },
+    avail:{ clin: availC, int:{ PR:1, BC:1, ATL:1, ON:1, QC:1 } }, intFactor:1,
+    engine:{ masterRed:.25, openRed:.10, topFill:1 },
+    blocks, profile:{}, bov:{}, stipend:{ NT:0, NU:0, YT:0 },
+    rate:{ clin: Object.fromEntries(Object.keys(RATE_CLIN).map(k => [k, new Array(12).fill(RATE_CLIN[k])])), cm:new Array(12).fill(53.05), ca:new Array(12).fill(30.90) },
+    cmca: clone(CMCA),
+    extras:[{ id:'ref', name:'Referral bonus', monthly:new Array(12).fill(88976) }, { id:'tax', name:'Other taxable', monthly:new Array(12).fill(8722) }],
+    ov:{ hours:{}, master:{}, open:{}, released:{} },
+    fte, fteHoursPerDay:7.5, workDays: WORKDAYS.slice() };
+}
+function clinIdsAll() { return ['QC','ON','BC','AB','NB','NL','NS','MB','SK','PE']; }
+function baseWeeklyClin(p, m) {
+  const reg = PROV[p].region;
+  if (reg === 'PR' || reg === 'ATL') return Math.round(W_CLIN[reg][m] * LOC[reg][p][m] / 100);
+  return W_CLIN[reg][m];
+}
+
+// ---- demand ----
+const arr12 = v => (Array.isArray(v) ? v : new Array(12).fill(v));
+function subsOf(plan) { const L = plan.lives; if (L.subsMode === 'manual') return L.subsManual.slice(); if (L.subsMode === 'growth') return MONTHS.map((_, m) => L.subStart * (1 + L.growthPct * m / 12)); return L.subs.slice(); }
+function inputChain(plan) {
+  const L = plan.lives, subs = subsOf(plan), growth = subs.map((v, i) => (i ? v / subs[i - 1] - 1 : null));
+  const raw = { int: subs.map((s, m) => s * L.utilInt[m]), clin: subs.map((s, m) => s * L.utilClin[m]) };
+  const rev = { int: raw.int.map((v, m) => v * (1 - L.autoInt[m])), clin: raw.clin.map((v, m) => v * (1 - L.autoClin[m])) };
+  const dist = { int:{}, clin:{} }, cons = { int:{}, clin:{} }, weekly = { int:{}, clin:{} };
+  ['int', 'clin'].forEach(k => REGIONS.forEach(r => {
+    dist[k][r] = MONTHS.map((_, m) => L.dist[k][r][m] / (REGIONS.reduce((a, q) => a + (L.dist[k][q][m] || 0), 0) || 1));
+    cons[k][r] = rev[k].map((v, m) => v * dist[k][r][m]); weekly[k][r] = cons[k][r].map((v, m) => v / WEEKS[m]); }));
+  return { subs, growth, raw, rev, dist, cons, weekly };
+}
+function weeklyDemand(plan) {
+  const out = { clin:{}, int:{}, region:{ clin:{}, int:{} } };
+  const va = plan.volAdj;
+  if (plan.mode === 'manual') {
+    PROVS.forEach(p => { out.clin[p] = plan.manualClin[p].map(v => (v || 0) * (1 + va.clin)); });
+    REGIONS.forEach(r => { out.int[r] = plan.manualInt[r].map(v => (v || 0) * (1 + va.int)); });
+  } else {
+    let rc = {}, ri = {};
+    if (plan.mode === 'sheet') { REGIONS.forEach(r => { rc[r] = W_CLIN[r]; ri[r] = W_INT[r]; }); }
+    else {
+      const ch = inputChain(plan); REGIONS.forEach(r => { rc[r] = ch.weekly.clin[r]; ri[r] = ch.weekly.int[r]; });
+    }
+    REGIONS.forEach(r => { out.int[r] = ri[r].map(v => v * (1 + va.int)); });
+    PROVS.forEach(p => {
+      const reg = PROV[p].region;
+      if (reg === 'PR' || reg === 'ATL') { const sh = plan.loc[reg][p], tot = MONTHS.map((_, m) => Object.keys(plan.loc[reg]).reduce((a, k) => a + plan.loc[reg][k][m], 0) || 1); out.clin[p] = rc[reg].map((v, m) => v * sh[m] / tot[m] * (1 + va.clin)); }
+      else out.clin[p] = rc[reg].map(v => v * (1 + va.clin));
+    });
+  }
+  REGIONS.forEach(r => { out.region.int[r] = out.int[r]; out.region.clin[r] = MONTHS.map((_, m) => PROVS.filter(p => PROV[p].region === r).reduce((a, p) => a + out.clin[p][m], 0)); });
+  // manual weekly override on a single tab/month
+  Object.keys(plan.weeklyOv).forEach(k => { const [kind, id] = k.split(':'); const a = plan.weeklyOv[k]; (a || []).forEach((v, m) => { if (v != null && v !== '' && out[kind] && out[kind][id]) out[kind][id][m] = v; }); });
+  return out;
+}
+
+// ---- sheet-method computation per tab ----
+const mat = (f) => Array.from({ length: 24 }, (_, h) => Array.from({ length: 7 }, (_, d) => f(h, d)));
+const xround = v => Math.floor(v + 0.5 + 1e-9);
+const MP = [[10,11,0,1,2,3],[4,5,6,7,8,9]], OP = [[10,11,0],[1,2,3],[4,5],[6,7,8,9]];
+function sortedBlocks(b) { return b.map(x => [+x[0], +x[1]]).sort((p, q) => p[0] - q[0]); }
+function unitMeta(plan, kind, id) {
+  const region = kind === 'clin' ? PROV[id].region : id;
+  const cphM = arr12(kind === 'clin' && plan.cphProv[id] != null ? plan.cphProv[id] : plan.cph[kind][region]).map(v => v * (1 + plan.cphUp[kind])), cph = cphM.reduce((a, v) => a + v, 0) / 12;
+  const sla = (kind === 'clin' && plan.slaProv[id]) || plan.sla[kind];
+  const profKey = kind === 'clin' ? (PROV[id].prof || PROF_FOR.clin[id]) : id;
+  const ov = plan.profile[kind + ':' + id];
+  const prof = normProf(ov && ov.length === 168 ? ov : PROF_DEFAULT[kind][profKey]);
+  const avail = kind === 'clin' ? plan.avail.clin[id] : plan.avail.int[id];
+  const tz = kind === 'clin' ? (PROV[id].tz != null ? PROV[id].tz : (id === 'MB' || id === 'SK' ? -1 : 0)) : INT_TZ[id];
+  const blocks = sortedBlocks(plan.blocks[kind + ':' + id] || DEFAULT_BLOCKS[kind][id]);
+  return { region, cph, cphM, sla, prof, avail, tz, blocks, occ: plan.occ[kind][region], key: kind + ':' + id, ratio: kind === 'int' ? plan.cmca[id] : 1 };
+}
+function slaSheet(D, S, cph, pk, thr, cap) {
+  const hs = mat(() => null), wait = mat(() => 0), inW = mat(() => 0), over = mat(() => 0), dsla = new Array(7).fill(1), dday = new Array(7).fill(0);
+  let wsum = 0, wden = 0;
+  for (let d = 0; d < 7; d++) {
+    for (let h = 0; h < 24; h++) {
+      const dd = D[h][d], s = S[h][d]; dday[d] += dd;
+      const adj = dd < pk.t1 ? dd : dd <= pk.t2 ? dd * pk.f1 : dd * pk.f2;
+      const iw = xround(Math.max(adj - s * cph, 0));
+      const k = (dd > 10 && s > 5 && dd / (s * cph) > 1.2) ? 3.5 : (dd > 5 && s > 2 && dd / (s * cph) > 1.1) ? 2.5 : 1;
+      const wm = (dd < 3 && s < 2) ? 0 : (s <= 0 ? 999 : xround((iw * (1 / cph) / s) * 60 * k));
+      const ov = wm >= thr ? iw : 0;
+      inW[h][d] = iw; wait[h][d] = Math.min(999, wm); over[h][d] = ov;
+      hs[h][d] = dd > 0 ? Math.min(Math.max((dd - ov) / dd, 0), cap) : null;
+      wsum += wm * dd; wden += dd;
+    }
+    let a = 0; for (let h = 0; h < 24; h++) if (hs[h][d] != null) a += hs[h][d] * D[h][d] / (dday[d] || 1);
+    dsla[d] = dday[d] ? Math.min(a, cap) : null;
+  }
+  const tot = dday.reduce((x, y) => x + y, 0); let m = 0; for (let d = 0; d < 7; d++) if (dsla[d] != null) m += dsla[d] * dday[d] / (tot || 1);
+  return { hs, wait, inW, over, dsla, dday, month: tot ? Math.min(m, cap) : 1, asa: wden ? wsum / wden : 0 };
+}
+function slaErlang(D, S, cph, occ, thrMin) {
+  const hs = mat(() => null), wait = mat(() => 0), dsla = new Array(7).fill(null), dday = new Array(7).fill(0), ratio = thrMin * cph / (60 * occ), aht = 60 / cph * occ;
+  let wsum = 0, wden = 0;
+  for (let d = 0; d < 7; d++) {
+    for (let h = 0; h < 24; h++) { const dd = D[h][d]; dday[d] += dd; if (dd > 0) { const e = E.slFrac(S[h][d], dd / cph * occ, ratio); hs[h][d] = e.sl; wait[h][d] = Math.min(999, e.asa * aht); wsum += wait[h][d] * dd; wden += dd; } }
+    let a = 0; for (let h = 0; h < 24; h++) if (hs[h][d] != null) a += hs[h][d] * D[h][d] / (dday[d] || 1); dsla[d] = dday[d] ? a : null;
+  }
+  const tot = dday.reduce((x, y) => x + y, 0); let m = 0; for (let d = 0; d < 7; d++) if (dsla[d] != null) m += dsla[d] * dday[d] / (tot || 1);
+  return { hs, wait, inW: null, over: null, dsla, dday, month: tot ? m : 1, asa: wden ? wsum / wden : 0 };
+}
+
+function calcUnit(plan, kind, id, dem) {
+  const mt = unitMeta(plan, kind, id), key = mt.key, blocks = mt.blocks, nb = blocks.length, intake = kind === 'int';
+  const lab = h => ((h + mt.tz) % 24 + 24) % 24;
+  const bOf = Array.from({ length: 24 }, (_, h) => { let b = 0; blocks.forEach((x, i) => { if (x[0] <= lab(h)) b = i; }); return b; });
+  const ov = plan.bov[key] || { staff:{}, master:{}, open:{} };
+  const K = plan.intFactor || 1, weekly = dem[kind][id], months = [];
+  for (let m = 0; m < 12; m++) {
+    const W = weekly[m], occ = mt.occ[m] / 100, cph = mt.cphM[m], wd = WD.map(r => r[m]);
+    const pct = mat((h, d) => mt.prof[d * 24 + h]);
+    const demand = mat((h, d) => xround(W * pct[h][d]));
+    const ratioE = mt.sla.mins * cph / (60 * occ);
+    let req = mat((h, d) => {
+      const dd = demand[h][d];
+      if (plan.supplyModel === 'erlang') return Math.max(E.erlangMin(dd / cph * occ, ratioE, mt.sla.pct, dd > 0 ? 1 : 0), 1);
+      return intake ? Math.max(Math.ceil(dd / cph * K - 1e-9), 1) : Math.max(xround(dd / cph), 1);
+    });
+    let cm = null, ca = null, red;
+    if (intake) { cm = mat((h, d) => Math.ceil(req[h][d] / mt.ratio - 1e-9)); ca = mat((h, d) => req[h][d] - cm[h][d]); red = mat((h, d) => Math.max(xround(cm[h][d] * mt.avail), 1)); }
+    else red = mat((h, d) => Math.max(xround(req[h][d] * mt.avail), 1));
+    // blocks (average of reduced supply by block)
+    const staff = Array.from({ length: nb }, () => new Array(7).fill(0));
+    for (let d = 0; d < 7; d++) for (let b = 0; b < nb; b++) { let s = 0, c = 0; for (let h = 0; h < 24; h++) if (bOf[h] === b) { s += red[h][d]; c++; } staff[b][d] = c ? xround(s / c) : 0; }
+    for (let b = 0; b < nb; b++) for (let d = 0; d < 7; d++) { const o = ov.staff[m + ':' + b + ':' + d]; if (o != null && o !== '') staff[b][d] = o; }
+    const reqDay = Array.from({ length: 7 }, (_, d) => { let t = 0; for (let h = 0; h < 24; h++) t += red[h][d]; return t; });
+    const totDay = Array.from({ length: 7 }, (_, d) => staff.reduce((a, r, b) => a + r[d] * blocks[b][1], 0));
+    const caH = intake ? ca.reduce((a, r) => a + r.reduce((x, v, d) => x + v * wd[d], 0), 0) : 0;
+    const hourlyTot = (M) => M.reduce((a, r) => a + r.reduce((x, v, d) => x + v * wd[d], 0), 0);
+    months.push({ m, weekly: W, cons: W * WEEKS[m], wd, pct, demand, req, red, cm, caM: ca, staff, reqDay, totDay, caH,
+      forecastH: hourlyTot(req), reducedH: intake ? hourlyTot(red) + caH : hourlyTot(red), cmForecast: intake ? hourlyTot(cm) : 0, cmReduced: intake ? hourlyTot(red) : 0,
+      staffed: totDay.reduce((a, v, d) => a + v * wd[d], 0), reducedReq: reqDay.reduce((a, v, d) => a + v * wd[d], 0), dayDemand: demand.reduce((a, r) => a.map((x, d) => x + r[d]), new Array(7).fill(0)) });
+  }
+  // master / open / top-ups (block level, across months)
+  const grid = () => Array.from({ length: nb }, () => new Array(7).fill(0));
+  months.forEach(x => { x.master = grid(); x.open = grid(); x.top = grid(); x.openRem = grid(); });
+  MP.forEach(per => { for (let b = 0; b < nb; b++) for (let d = 0; d < 7; d++) { let mn = Infinity; per.forEach(m => { if (months[m].staff[b][d] < mn) mn = months[m].staff[b][d]; }); const v = Math.max(0, xround(mn * (1 - plan.engine.masterRed))); per.forEach(m => { months[m].master[b][d] = v; }); } });
+  months.forEach((x, m) => { for (let b = 0; b < nb; b++) for (let d = 0; d < 7; d++) { const o = ov.master[m + ':' + b + ':' + d]; if (o != null && o !== '') x.master[b][d] = o; x.openRem[b][d] = Math.max(0, x.staff[b][d] - x.master[b][d]); } });
+  OP.forEach(win => { for (let b = 0; b < nb; b++) for (let d = 0; d < 7; d++) { let mn = Infinity; win.forEach(m => { if (months[m].openRem[b][d] < mn) mn = months[m].openRem[b][d]; }); const v = Math.max(0, xround(mn * (1 - plan.engine.openRed))); win.forEach(m => { months[m].open[b][d] = v; }); } });
+  months.forEach((x, m) => {
+    for (let b = 0; b < nb; b++) for (let d = 0; d < 7; d++) { const o = ov.open[m + ':' + b + ':' + d]; if (o != null && o !== '') x.open[b][d] = o; x.top[b][d] = Math.max(0, x.staff[b][d] - x.master[b][d] - x.open[b][d]); }
+    const hrs = G => G.reduce((a, r, b) => a + r.reduce((s, v, d) => s + v * blocks[b][1] * x.wd[d], 0), 0);
+    let mH = hrs(x.master), oH = hrs(x.open), tH = hrs(x.top), planned = mH + oH + tH;
+    const oh = plan.ov.hours[key] && plan.ov.hours[key][m];
+    if (oh != null && oh !== '' && planned > 0) { const f = oh / planned; mH *= f; oH *= f; tH *= f; planned = oh; }
+    const om = plan.ov.master[key] && plan.ov.master[key][m], oo = plan.ov.open[key] && plan.ov.open[key][m];
+    if (om != null && om !== '') { mH = om; tH = Math.max(0, planned - mH - oH); }
+    if (oo != null && oo !== '') { oH = oo; tH = Math.max(0, planned - mH - oH); }
+    const orl = plan.ov.released[key] && plan.ov.released[key][m];
+    const fill = orl != null && orl !== '' ? (tH > 0 ? Math.min(1, orl / tH) : 1) : plan.engine.topFill;
+    x.masterH = mH; x.openH = oH; x.topNeeded = tH; x.fill = fill; x.topReleased = tH * fill; x.topRemaining = tH * (1 - fill); x.plannedH = intake ? planned + x.caH : planned; x.cmPlanned = intake ? planned : 0; x.ca = x.caH;
+    x.master_ = mH; x.open_ = oH;
+    // supply used for the wait / SLA estimate
+    let S;
+    if (plan.slaBasis === 'scheduled') S = mat((h, d) => { const b = bOf[h]; if (!blocks[b][1]) return 0; return x.master[b][d] + x.open[b][d] + fill * x.top[b][d] + (intake ? x.caM[h][d] : 0); });
+    else S = mat((h, d) => x.red[h][d] + (intake ? x.caM[h][d] : 0));
+    const occ = mt.occ[m] / 100;
+    const r = plan.slaMethod === 'erlang' ? slaErlang(x.demand, S, mt.cphM[m], occ, mt.sla.mins) : slaSheet(x.demand, S, mt.cphM[m], plan.peak, mt.sla.mins, plan.slaCap);
+    x.sla = r; x.sl = r.month; x.asa = r.asa; x.den = r.dday.reduce((a, v, d) => a + v * x.wd[d], 0); x.supply = S;
+  });
+  // keep legacy field names used by summary / hours / fte tabs
+  months.forEach(x => { x.master = x.master; });
+  const out = months.map(x => ({ ...x, masterGrid: x.master, openGrid: x.open, topGrid: x.top, master: x.masterH, open: x.openH }));
+  return { mt, blocks, bOf, lab, months: out };
+}
+
+function fteCalc(plan, cfg, hours) {
+  const hpd = plan.fteHoursPerDay, out = [];
+  let prev = cfg.start;
+  for (let m = 0; m < 12; m++) {
+    const hpf = plan.workDays[m] * hpd || 1, head = prev, net = head - (cfg.attr[m] || 0) + (cfg.hires[m] || 0); prev = net;
+    const supplied = net * (cfg.avg[m] || 0) * WEEKS[m], supF = supplied / hpf, reqF = hours[m] / hpf, gap = supF - reqF;
+    const hireF = Math.max(0, -gap), hireHC = cfg.avg[m] > 0 ? hireF * hpf / (cfg.avg[m] * WEEKS[m]) : 0;
+    out.push({ hours: hours[m], reqFTE: reqF, head, net, supplied, supFTE: supF, gap, hireFTE: hireF, hireHC });
+  }
+  return out;
+}
+
+function runPlan(plan) {
+  const dem = weeklyDemand(plan), units = { clin:{}, int:{} }, fte = { clin:{}, cm:{}, ca:{} };
+  clinIdsAll().forEach(p => { units.clin[p] = calcUnit(plan, 'clin', p, dem); });
+  REGIONS.forEach(r => { units.int[r] = calcUnit(plan, 'int', r, dem); });
+  clinIdsAll().forEach(p => { fte.clin[p] = fteCalc(plan, plan.fte.clin[p], units.clin[p].months.map(x => x.plannedH)); });
+  REGIONS.forEach(r => { fte.cm[r] = fteCalc(plan, plan.fte.cm[r], units.int[r].months.map(x => x.cmPlanned)); fte.ca[r] = fteCalc(plan, plan.fte.ca[r], units.int[r].months.map(x => x.ca)); });
+  const rates = { clin:{}, cm: arr12(plan.rate.cm), ca: arr12(plan.rate.ca) }, cost = { clin:{}, cm:{}, ca:{} };
+  clinIdsAll().forEach(p => { rates.clin[p] = arr12(plan.rate.clin[p]); cost.clin[p] = units.clin[p].months.map((x, m) => ({ master: x.master * rates.clin[p][m], open: x.open * rates.clin[p][m], top: x.topReleased * rates.clin[p][m] })); });
+  REGIONS.forEach(r => { cost.cm[r] = units.int[r].months.map((x, m) => ({ master: x.master * rates.cm[m], open: x.open * rates.cm[m], top: x.topReleased * rates.cm[m] })); cost.ca[r] = units.int[r].months.map((x, m) => ({ master: x.ca * rates.ca[m], open: 0, top: 0 })); });
+  const sumCost = (k, m) => Object.keys(cost[k]).reduce((a, u) => a + cost[k][u][m].master + cost[k][u][m].open + cost[k][u][m].top, 0);
+  const cogs = { clin: MONTHS.map((_, m) => sumCost('clin', m)), cm: MONTHS.map((_, m) => sumCost('cm', m)), ca: MONTHS.map((_, m) => sumCost('ca', m)),
+    stipend: MONTHS.map(() => Object.values(plan.stipend).reduce((a, v) => a + (+v || 0), 0)), extras: (plan.extras || []).map(e => ({ id: e.id, name: e.name, vals: arr12(e.monthly) })) };
+  cogs.hours = MONTHS.map((_, m) => cogs.clin[m] + cogs.cm[m] + cogs.ca[m]);
+  cogs.extraM = MONTHS.map((_, m) => cogs.extras.reduce((a, e) => a + (+e.vals[m] || 0), 0));
+  cogs.total = MONTHS.map((_, m) => cogs.hours[m] + cogs.stipend[m] + cogs.extraM[m]);
+  return { dem, units, fte, cost, rates, cogs, chain: inputChain(plan) };
+}
+function unitDetail(plan, kind, id) { return calcUnit(plan, kind, id, weeklyDemand(plan)); }
+function unitSummary(plan, kind, id) { return calcUnit(plan, kind, id, weeklyDemand(plan)).months; }
+const sumM = (a, f) => a.reduce((x, y) => x + f(y), 0);
+
+root.Cap = { MONTHS, DOW, DIM, WEEKS, WD, WORKDAYS, REGIONS, REG_NAME, PROVS, PROV, INT_TZ, PROF_DEFAULT, DEFAULT_BLOCKS, W_CLIN, W_INT, LOC, OCC, RATE_CLIN, mkPlan, weeklyDemand, inputChain, subsOf, arr12, runPlan, unitDetail, unitSummary, fteCalc, clone, sumM, normProf, baseWeeklyClin, clinIdsAll, xround };
+if (typeof module !== 'undefined') module.exports = root.Cap;
+})(typeof window !== 'undefined' ? window : globalThis);
+
+</script>
+<script>
+(function () {
+'use strict';
+const { useState, useMemo, useEffect, useDeferredValue } = React;
+const U = window.UI, C = window.Cap, E = window.Engine, { html } = U;
+const { fmt0, fmt1, fmt2, money, moneyM, pct1, pct2, sum, avg, clone, setIn, Num, Seg, Card, Field, Stat, Slider, Chart, Heat } = U;
+const { MONTHS, DOW, REGIONS, REG_NAME, PROVS, PROV, WEEKS, WD } = C;
+const KEY = 'wfm-cap-plan-v1';
+
+// ---------- small widgets ----------
+function OptNum({ value, onChange, width = 64, dec = 0, placeholder = '' }) {
+  const [txt, setTxt] = useState(value == null || value === '' ? '' : String(Math.round(value * 100) / 100));
+  const [foc, setFoc] = useState(false);
+  useEffect(() => { if (!foc) setTxt(value == null || value === '' ? '' : String(Math.round(value * 100) / 100)); }, [value]);
+  return html`<input className="num opt" type="number" style=${{ width }} placeholder=${placeholder} value=${txt}
+    onFocus=${() => setFoc(true)} onBlur=${() => setFoc(false)}
+    onChange=${e => { setTxt(e.target.value); const v = parseFloat(e.target.value); onChange(e.target.value === '' ? null : (isFinite(v) ? v : null)); }} />`;
+}
+const hn = (n, d = 0) => (n == null || !isFinite(n) ? '–' : (+n).toLocaleString('en-CA', { minimumFractionDigits: d, maximumFractionDigits: d }));
+function tint(v, good, bad) { // v: gap; negative = shortage
+  if (v < -0.05) { const a = Math.min(0.75, 0.12 + Math.abs(v) / 12); return { background: `rgba(201,56,47,${a})`, color: a > 0.45 ? '#fff' : 'inherit' }; }
+  const a = Math.min(0.6, 0.06 + v / 40); return { background: `rgba(27,143,90,${a})`, color: a > 0.4 ? '#fff' : 'inherit' };
+}
+const POOLS = { clin:'Clinical (NP/MD)', cm:'Intake Care Managers', ca:'Intake Care Assistants' };
+const clinIds = ['QC','ON','BC','AB','NB','NL','NS','MB','SK','PE'];
+
+// normalised month rows for a pool/unit
+function unitRows(plan, run, pool, id) {
+  if (pool === 'clin') { const u = run.units.clin[id]; return u ? u.months : null; }
+  const u = run.units.int[id];
+  if (pool === 'cm') return u.months.map(x => ({ ...x, forecastH: x.cmForecast, reducedH: x.cmReduced, plannedH: x.cmPlanned }));
+  return u.months.map(x => ({ ...x, forecastH: x.ca, reducedH: x.ca, plannedH: x.ca, master: 0, open: 0, topNeeded: 0, topReleased: 0, topRemaining: 0 }));
+}
+const poolIds = pool => (pool === 'clin' ? clinIds : REGIONS);
+const nameOf = (pool, id) => (pool === 'clin' ? id : REG_NAME[id]);
+const rateOf = (plan, pool, id) => (pool === 'clin' ? plan.rate.clin[id] : pool === 'cm' ? plan.rate.cm : plan.rate.ca);
+
+// ================= SUMMARY =================
+function SummaryTab({ p, run }) {
+  const rows = [];
+  clinIds.forEach(id => { const m = unitRows(p, run, 'clin', id), f = run.fte.clin[id]; rows.push({ pool: 'clin', id, m, f }); });
+  REGIONS.forEach(id => { rows.push({ pool: 'cm', id, m: unitRows(p, run, 'cm', id), f: run.fte.cm[id] }); });
+  REGIONS.forEach(id => { rows.push({ pool: 'ca', id, m: unitRows(p, run, 'ca', id), f: run.fte.ca[id] }); });
+  const tot = k => MONTHS.map((_, m) => sum(rows.filter(r => r.pool === k).map(r => r.m[m].plannedH)));
+  const reqFTE = MONTHS.map((_, m) => sum(rows.filter(r => r.f).map(r => r.f[m].reqFTE))), supFTE = MONTHS.map((_, m) => sum(rows.filter(r => r.f).map(r => r.f[m].supFTE)));
+  return html`<div className="stack">
+    <${Card} title="Capacity by province / region" sub="Annual hours, FTE and expected performance for every unit that has a forecast. Rows follow the sheets: 10 clinical province tabs and the five intake region tabs split into Care Managers and Care Assistants. NT, NU and YT are stipend-only.">
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Team</th><th>Unit</th><th>Type</th><th className="r">Consults/yr</th><th className="r">Forecast hrs</th><th className="r">Planned hrs</th><th className="r">Avg FTE req.</th><th className="r">Avg FTE supply</th><th className="r">Peak hire (FTE)</th><th className="r">Service level</th><th className="r">Avg wait (min)</th><th className="r">Cost</th></tr></thead><tbody>
+      ${rows.map(r => { if (!r.m) return null; const cost = run.cost[r.pool][r.id] ? sum(run.cost[r.pool][r.id].map(c => c.master + c.open + c.top)) : 0; const den = sum(r.m.map(x => x.den || 0)), sl = den ? sum(r.m.map(x => (x.sl || 0) * (x.den || 0))) / den : null, asa = den ? sum(r.m.map(x => (x.asa || 0) * (x.den || 0))) / den : null; const tgt = r.pool === 'clin' ? (p.slaProv[r.id] || p.sla.clin) : p.sla.int;
+        return html`<tr key=${r.pool + r.id}><td>${r.pool === 'clin' ? 'NP' : r.pool === 'cm' ? 'CM' : 'CA'}</td><td><b>${nameOf(r.pool, r.id)}</b></td><td className="mute">${r.pool === 'clin' ? (PROV[r.id].type === 'fixed' ? 'single NP' : 'profiled') : 'profiled'}</td>
+          <td className="r">${hn(sum(r.m.map(x => x.cons)))}</td><td className="r">${hn(sum(r.m.map(x => x.forecastH)))}</td><td className="r strong">${hn(sum(r.m.map(x => x.plannedH)))}</td>
+          <td className="r">${r.f ? hn(avg(r.f.map(x => x.reqFTE)), 1) : '–'}</td><td className="r">${r.f ? hn(avg(r.f.map(x => x.supFTE)), 1) : '–'}</td><td className=${'r ' + (r.f && Math.max(...r.f.map(x => x.hireFTE)) > 0.05 ? 'bad' : '')}>${r.f ? hn(Math.max(...r.f.map(x => x.hireFTE)), 1) : '–'}</td>
+          <td className=${'r ' + (sl == null || r.pool === 'ca' ? '' : sl >= tgt.pct ? 'good' : 'bad')}>${sl == null || r.pool === 'ca' ? '–' : pct1(sl)}</td><td className="r">${asa == null || r.pool === 'ca' ? '–' : hn(asa, 1)}</td><td className="r">${money(cost)}</td></tr>`; })}
+      <tr className="strong"><td colSpan="3">Stipend provinces (NT, NU, YT)</td><td colSpan="9" className="mute">Stipend / on-call — no scheduled hours in the sheets. Enter dollars under Hours & cost if you want them in the plan.</td></tr>
+      </tbody></table></div>
+    <//>
+    <div className="grid2">
+      <${Card} title="Required hours by team"><${Chart} labels=${MONTHS} series=${[{ type: 'stack', name: 'Clinical NPs', values: tot('clin'), color: 'var(--c1)' }, { type: 'stack', name: 'Intake CMs', values: tot('cm'), color: 'var(--c2)' }, { type: 'stack', name: 'Intake CAs', values: tot('ca'), color: 'var(--c3)' }]} yFmt=${fmt0} h=${260} /><//>
+      <${Card} title="FTE required vs available supply" sub="All teams. Supply = net headcount × avg weekly hours ÷ hours per FTE."><${Chart} labels=${MONTHS} series=${[{ type: 'line', name: 'FTE required', values: reqFTE, color: 'var(--c5)' }, { type: 'line', name: 'FTE supply', values: supFTE, color: 'var(--c1)' }]} yFmt=${fmt0} h=${260} /><//></div>
+    <${Card} title="Total COGS by month" sub="Scheduled hours at plan rates plus stipends and the additional cost lines from the Inputs tab (section 8).">
+      <div className="grid2"><${Chart} labels=${MONTHS} series=${[{ type: 'stack', name: 'Clinical NPs', values: run.cogs.clin, color: 'var(--c1)' }, { type: 'stack', name: 'Intake CMs', values: run.cogs.cm, color: 'var(--c2)' }, { type: 'stack', name: 'Intake CAs', values: run.cogs.ca, color: 'var(--c3)' }, { type: 'stack', name: 'Stipends', values: run.cogs.stipend, color: 'var(--c6)' }, { type: 'stack', name: 'Additional costs', values: run.cogs.extraM, color: 'var(--c4)' }]} yFmt=${v => '$' + (v / 1e6).toFixed(1) + 'M'} h=${250} />
+        <div className="tscroll"><table className="t sm"><thead><tr><th>Line</th><th className="r">Year</th><th className="r">Share</th></tr></thead><tbody>
+          ${[['Clinical NP hours', run.cogs.clin], ['Intake CM hours', run.cogs.cm], ['Intake CA hours', run.cogs.ca], ['Stipends', run.cogs.stipend]].concat(run.cogs.extras.map(e => [e.name, e.vals])).map(([l, v], i) => html`<tr key=${i}><td>${l}</td><td className="r">${money(sum(v))}</td><td className="r">${pct1(sum(v) / (sum(run.cogs.total) || 1))}</td></tr>`)}
+          <tr className="strong"><td>Total COGS</td><td className="r">${money(sum(run.cogs.total))}</td><td className="r">100%</td></tr></tbody></table></div></div>
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Month</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}</tr></thead><tbody><tr className="strong"><td>Total COGS</td>${run.cogs.total.map((v, i) => html`<td key=${i} className="r">${money(v)}</td>`)}</tr><tr><td>of which additional</td>${run.cogs.extraM.map((v, i) => html`<td key=${i} className="r">${money(v)}</td>`)}</tr></tbody></table></div>
+    <//>
+    <${Card} title="FTE gap by month" sub="Supply minus requirement. Red = shortage (hiring needed), green = surplus.">
+      <div className="tscroll"><table className="t sm gap"><thead><tr><th>Unit</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}</tr></thead><tbody>
+        ${rows.filter(r => r.f).map(r => html`<tr key=${r.pool + r.id}><td>${(r.pool === 'clin' ? 'NP ' : r.pool === 'cm' ? 'CM ' : 'CA ') + nameOf(r.pool, r.id)}</td>${r.f.map((x, i) => html`<td key=${i} className="r" style=${tint(x.gap)}>${hn(x.gap, 1)}</td>`)}</tr>`)}</tbody></table></div>
+      <p className="note">Headcount defaults are the sheets' 2025-vintage FTE tabs (clinical) and current CM/CA headcounts (intake). Update them on the FTE & hiring tab; MB, SK and PE have no headcount in the sheet, so they show a shortage until you enter one.</p>
+    <//></div>`;
+}
+
+// ================= INPUTS (National Forecast style) =================
+function FillBox({ onFill, pct }) {
+  const [t, setT] = useState('');
+  const go = () => { const v = parseFloat(t); if (isFinite(v)) { onFill(pct ? v / 100 : v); } setT(''); };
+  return html`<input className="num fill" placeholder="fill all" value=${t} style=${{ width: 62 }} onChange=${e => setT(e.target.value)} onKeyDown=${e => { if (e.key === 'Enter') go(); }} onBlur=${go} title="Type a value and press Enter to set every month" />`;
+}
+function PasteBox({ onApply, pct, hint }) {
+  const [open, setOpen] = useState(false), [t, setT] = useState('');
+  const apply = () => {
+    const lines = t.split(/\n/).map(l => l.trim()).filter(Boolean);
+    const rows = lines.map(l => { const toks = l.indexOf('\t') >= 0 ? l.split('\t') : l.split(/\s+/); const nums = toks.map(x => x.replace(/[$,%\s]/g, '')).filter(x => x !== '' && isFinite(+x)).map(Number); return nums.length >= 12 ? nums.slice(-12) : null; }).filter(Boolean);
+    if (!rows.length) { alert('Paste rows of 12 monthly numbers (a label in front is fine).'); return; }
+    rows.forEach((r, i) => onApply(i, pct ? r.map(v => v / 100) : r)); setT(''); setOpen(false);
+  };
+  return html`<span className="pastewrap"><button className="btn ghost" onClick=${() => setOpen(!open)}>Paste from Sheets</button>
+    ${open ? html`<div className="pastebox"><textarea className="paste" rows="6" value=${t} onChange=${e => setT(e.target.value)} placeholder=${'One row per line, 12 monthly values (Jan–Dec), optional label first.\n' + (hint || '')}></textarea><div className="btnrow"><button className="btn" onClick=${apply}>Apply to rows in order</button><button className="btn ghost" onClick=${() => setOpen(false)}>Cancel</button></div></div>` : null}</span>`;
+}
+function RowGrid({ labels, vals, onSetRow, pct, dec = 2, step = 1, max, width = 58, yearCol, totals, readOnly, fmtRO, head = '' }) {
+  return html`<div className="tscroll"><table className="t sm sheet"><thead><tr><th className="fc">${head}</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}${yearCol ? html`<th className="r">${yearCol === 'sum' ? 'Year' : 'Avg'}</th>` : null}${readOnly ? null : html`<th></th>`}</tr></thead><tbody>
+    ${labels.map((l, ri) => { const v = vals(ri); return html`<tr key=${ri}><td className="fc">${l}</td>${v.map((x, m) => html`<td key=${m} className="r">${readOnly ? (fmtRO ? fmtRO(x) : hn(x, dec)) : html`<${Num} value=${x} pct=${pct} dec=${dec} step=${step} min=${0} max=${max} width=${width} onChange=${n => onSetRow(ri, v.map((q, j) => (j === m ? n : q)))} />`}</td>`)}${yearCol ? html`<td className="r strong">${fmtRO ? fmtRO(yearCol === 'sum' ? sum(v) : avg(v)) : hn(yearCol === 'sum' ? sum(v) : avg(v), dec)}</td>` : null}${readOnly ? null : html`<td><${FillBox} pct=${pct} onFill=${n => onSetRow(ri, new Array(12).fill(n))} /></td>`}</tr>`; })}
+    ${(totals || []).map((t, ti) => html`<tr key=${'t' + ti} className="strong tot"><td className="fc">${t.label}</td>${MONTHS.map((_, m) => html`<td key=${m} className=${'r ' + (t.warn && t.warn(m) ? 'bad' : '')}>${t.fmt(t.fn(m))}</td>`)}${yearCol ? html`<td></td>` : null}${readOnly ? null : html`<td></td>`}</tr>`)}
+  </tbody></table></div>`;
+}
+function InputsTab({ p, set, run }) {
+  const ch = run.chain, L = p.lives, def = useMemo(() => C.mkPlan(), []);
+  const regs = REGIONS.map(r => REG_NAME[r]);
+  const modeNote = { lives: 'The plan is driven by the lives → utilization → distribution chain below.', sheet: 'The plan currently uses the sheet\'s weekly values, so the lives / utilization / distribution inputs below do not change it. Switch to the Inputs chain to use them.', manual: 'The plan currently uses manually typed weekly consults by province (Forecast by province tab); lives / utilization / distribution below do not change it.' }[p.mode];
+  const subsRO = L.subsMode !== 'manual';
+  const dsum = (k, m) => REGIONS.reduce((a, r) => a + (L.dist[k][r][m] || 0), 0);
+  const pctS = v => (v >= 0 ? '+' : '') + (v * 100).toFixed(2) + '%';
+  return html`<div className="stack">
+    <${Card} title="Inputs · national forecast" sub="Everything the province tabs read, in one place and in the order of the National Forecast tab: lives → utilization → consults → automation → regional distribution → weekly view, then consults per hour, occupancy and clinician rates by month. Change a cell and every province and intake tab updates. Each row has a 'fill all' box (type a value, press Enter) and Paste accepts rows copied from Google Sheets."
+      right=${html`<${Seg} value=${p.mode} onChange=${v => set(['mode'], v)} options=${[{ v: 'lives', l: 'Use inputs (lives → consults)' }, { v: 'sheet', l: 'Sheet weekly values' }, { v: 'manual', l: 'Manual by province' }]} />`}>
+      <p className=${'note ' + (p.mode === 'lives' ? '' : 'bad')}>${modeNote}</p>
+      <div className="row"><${Field} label="Clinical volume adjustment"><${Slider} value=${p.volAdj.clin} min=${-0.3} max=${0.3} step=${0.005} onChange=${v => set(['volAdj', 'clin'], v)} fmt=${v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'} /><//>
+        <${Field} label="Intake volume adjustment"><${Slider} value=${p.volAdj.int} min=${-0.3} max=${0.3} step=${0.005} onChange=${v => set(['volAdj', 'int'], v)} fmt=${v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'} /><//>
+        <button className="btn ghost" onClick=${() => { set(['lives'], clone(def.lives)); set(['cph'], clone(def.cph)); set(['occ'], clone(def.occ)); set(['rate'], clone(def.rate)); set(['avail'], clone(def.avail)); set(['cmca'], clone(def.cmca)); }}>Reset every input on this page to the sheet</button></div>
+    <//>
+    <${Card} title="1 · Subscriber forecast" sub="Enter lives each month, use the lives provided, or take the starting base and apply an annual growth rate split equally across the months."
+      right=${html`<${Seg} value=${L.subsMode} onChange=${v => set(['lives', 'subsMode'], v)} options=${[{ v: 'series', l: 'Lives provided' }, { v: 'manual', l: 'Type monthly' }, { v: 'growth', l: 'Start + annual growth' }]} />`}>
+      ${L.subsMode === 'growth' ? html`<div className="row"><${Field} label="Starting subscriber base (Jan)"><${Num} value=${L.subStart} dec=${0} step=${1000} min=${0} width=${110} onChange=${v => set(['lives', 'subStart'], v)} /><//>
+        <${Field} label="Annual growth rate"><${Num} value=${L.growthPct} pct=${true} dec=${2} step=${0.1} width=${80} suffix="%" onChange=${v => set(['lives', 'growthPct'], v)} /><//>
+        <div className="note">Split equally: ${pct2(L.growthPct / 12)} of the starting base added each month (5% a year = 0.4167% a month).</div></div>` : null}
+      ${L.subsMode === 'series' ? html`<div className="row"><button className="btn" onClick=${() => set(['lives', 'subs'], E.SUBS_V1.slice())}>Load V1 / V10B lives (6.62%)</button><button className="btn" onClick=${() => set(['lives', 'subs'], E.SUBS_V2.slice())}>Load V2 reduced lives (2.59%)</button><button className="btn ghost" onClick=${() => { set(['lives', 'subsManual'], ch.subs.slice()); set(['lives', 'subsMode'], 'manual'); }}>Copy to typed</button></div>` : null}
+      <${RowGrid} labels=${['Subscriber forecast']} vals=${() => (L.subsMode === 'manual' ? L.subsManual : ch.subs)} readOnly=${subsRO} dec=${0} step=${1000} width=${84} onSetRow=${(ri, a) => set(['lives', 'subsManual'], a)} yearCol="avg"
+        totals=${[{ label: 'Month-over-month growth', fn: m => ch.growth[m], fmt: v => (v == null ? '–' : pctS(v)) }, { label: 'Growth vs January', fn: m => ch.subs[m] / ch.subs[0] - 1, fmt: pctS }]} />
+      <div className="stats"><${Stat} label="December vs January" value=${pctS(ch.subs[11] / ch.subs[0] - 1)} sub="growth across the year" /><${Stat} label="Average monthly growth" value=${pct2(Math.pow(ch.subs[11] / ch.subs[0], 1 / 11) - 1)} sub="compound, Jan → Dec" /><${Stat} label="Average lives" value=${hn(avg(ch.subs))} /></div>
+    <//>
+    <${Card} title="2 · Utilization, consults and automation" sub="Utilization is the % of subscribers who need a consult each month. Consults = lives × utilization; automation then removes a % of consults (intake and clinical separately)."
+      right=${html`<${PasteBox} pct=${true} hint="Row order: intake utilization %, clinical utilization %" onApply=${(i, a) => { if (i === 0) set(['lives', 'utilInt'], a); if (i === 1) set(['lives', 'utilClin'], a); }} />`}>
+      <${RowGrid} labels=${['Intake utilization % of lives', 'Clinical utilization % of lives']} pct=${true} dec=${3} step=${0.01} yearCol="avg" fmtRO=${v => (v * 100).toFixed(3) + '%'} vals=${ri => (ri === 0 ? L.utilInt : L.utilClin)} onSetRow=${(ri, a) => set(['lives', ri === 0 ? 'utilInt' : 'utilClin'], a)} />
+      <h4>Forecast consults (lives × utilization)</h4>
+      <${RowGrid} labels=${['Intake consults', 'Clinical consults']} readOnly=${true} dec=${0} yearCol="sum" vals=${ri => (ri === 0 ? ch.raw.int : ch.raw.clin)} />
+      <h4>Efficiency / automation reduction (% of consults removed)</h4>
+      <${RowGrid} labels=${['Intake automation / other reduction', 'Clinical automation / other reduction']} pct=${true} dec=${1} step=${1} max=${90} yearCol="avg" fmtRO=${v => (v * 100).toFixed(1) + '%'} vals=${ri => (ri === 0 ? L.autoInt : L.autoClin)} onSetRow=${(ri, a) => set(['lives', ri === 0 ? 'autoInt' : 'autoClin'], a)} />
+      <h4>Revised consults</h4>
+      <${RowGrid} labels=${['Revised intake consults (CM / CA)', 'Revised clinical consults']} readOnly=${true} dec=${0} yearCol="sum" vals=${ri => (ri === 0 ? ch.rev.int : ch.rev.clin)} />
+    <//>
+    <${Card} title="3 · Distribution by region (%)" sub="Share of revised consults handled in each region, per month. Shares are normalised if a month doesn't add to 100%."
+      right=${html`<${PasteBox} pct=${false} hint="Intake: 5 region rows, then clinical: 5 region rows (AB/SK/MB/Terr, BC, NS/NB/PE/NL, ON, QC)" onApply=${(i, a) => { if (i < 5) set(['lives', 'dist', 'int', REGIONS[i]], a); else if (i < 10) set(['lives', 'dist', 'clin', REGIONS[i - 5]], a); }} />`}>
+      <h4>Intake</h4><${RowGrid} labels=${regs} dec=${2} step=${0.1} max=${100} yearCol="avg" fmtRO=${v => v.toFixed(2) + '%'} vals=${ri => L.dist.int[REGIONS[ri]]} onSetRow=${(ri, a) => set(['lives', 'dist', 'int', REGIONS[ri]], a)} totals=${[{ label: 'Total', fn: m => dsum('int', m), fmt: v => v.toFixed(2) + '%', warn: m => Math.abs(dsum('int', m) - 100) > 0.05 }]} />
+      <h4>Clinical</h4><${RowGrid} labels=${regs} dec=${2} step=${0.1} max=${100} yearCol="avg" fmtRO=${v => v.toFixed(2) + '%'} vals=${ri => L.dist.clin[REGIONS[ri]]} onSetRow=${(ri, a) => set(['lives', 'dist', 'clin', REGIONS[ri]], a)} totals=${[{ label: 'Total', fn: m => dsum('clin', m), fmt: v => v.toFixed(2) + '%', warn: m => Math.abs(dsum('clin', m) - 100) > 0.05 }]} />
+    <//>
+    <${Card} title="4 · Consults by region and weekly view" sub="What the distribution produces. Weekly = monthly ÷ (days in month ÷ 7). The province tabs read the weekly numbers (clinical is split into provinces on the Forecast by province tab).">
+      <h4>Intake consults per month</h4><${RowGrid} labels=${regs} readOnly=${true} dec=${0} yearCol="sum" vals=${ri => ch.cons.int[REGIONS[ri]]} />
+      <h4>Intake · average consults per week</h4><${RowGrid} labels=${regs} readOnly=${true} dec=${0} yearCol="avg" vals=${ri => ch.weekly.int[REGIONS[ri]]} />
+      <h4>Clinical consults per month</h4><${RowGrid} labels=${regs} readOnly=${true} dec=${0} yearCol="sum" vals=${ri => ch.cons.clin[REGIONS[ri]]} />
+      <h4>Clinical · average consults per week</h4><${RowGrid} labels=${regs} readOnly=${true} dec=${0} yearCol="avg" vals=${ri => ch.weekly.clin[REGIONS[ri]]} />
+      <h4>Weeks in month</h4><${RowGrid} labels=${['Days ÷ 7']} readOnly=${true} dec=${2} vals=${() => WEEKS} />
+    <//>
+    <${Card} title="5 · Consults per hour (CPH) by region and month" sub="The scheduling and productivity metric: supply = demand ÷ CPH. A province tab can still override its own CPH."
+      right=${html`<${PasteBox} pct=${false} hint="Intake: 5 region rows, then clinical: 5 region rows" onApply=${(i, a) => { if (i < 5) set(['cph', 'int', REGIONS[i]], a); else if (i < 10) set(['cph', 'clin', REGIONS[i - 5]], a); }} />`}>
+      <h4>Intake</h4><${RowGrid} labels=${regs} dec=${2} step=${0.01} width=${54} yearCol="avg" vals=${ri => C.arr12(p.cph.int[REGIONS[ri]])} onSetRow=${(ri, a) => set(['cph', 'int', REGIONS[ri]], a)} />
+      <h4>Clinical</h4><${RowGrid} labels=${regs} dec=${2} step=${0.01} width=${54} yearCol="avg" vals=${ri => C.arr12(p.cph.clin[REGIONS[ri]])} onSetRow=${(ri, a) => set(['cph', 'clin', REGIONS[ri]], a)} />
+      <div className="row"><${Field} label="Intake productivity uplift (all regions)"><${Slider} value=${p.cphUp.int} min=${-0.1} max=${0.2} step=${0.005} onChange=${v => set(['cphUp', 'int'], v)} fmt=${v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'} /><//>
+        <${Field} label="Clinical productivity uplift (all regions)"><${Slider} value=${p.cphUp.clin} min=${-0.1} max=${0.2} step=${0.005} onChange=${v => set(['cphUp', 'clin'], v)} fmt=${v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'} /><//></div>
+    <//>
+    <${Card} title="6 · Occupancy by region and month (%)" sub="Used for handle time (AHT = 60 ÷ CPH × occupancy) in the Erlang C options."
+      right=${html`<${PasteBox} pct=${false} hint="Clinical: 5 region rows, then intake: 5 region rows" onApply=${(i, a) => { if (i < 5) set(['occ', 'clin', REGIONS[i]], a); else if (i < 10) set(['occ', 'int', REGIONS[i - 5]], a); }} />`}>
+      <h4>Clinical</h4><${RowGrid} labels=${regs} dec=${0} step=${1} max=${100} width=${50} vals=${ri => p.occ.clin[REGIONS[ri]]} onSetRow=${(ri, a) => set(['occ', 'clin', REGIONS[ri]], a)} />
+      <h4>Intake</h4><${RowGrid} labels=${regs} dec=${0} step=${1} max=${100} width=${50} vals=${ri => p.occ.int[REGIONS[ri]]} onSetRow=${(ri, a) => set(['occ', 'int', REGIONS[ri]], a)} />
+    <//>
+    <${Card} title="7 · Rates by province and month ($ per hour)" sub="Scheduled rate used for cost: clinicians by province, intake Care Managers and Care Assistants, and monthly stipends for the territories."
+      right=${html`<div className="btnrow"><${PasteBox} pct=${false} hint="Provinces in order: QC, ON, BC, AB, NB, NL, NS, MB, SK, PE, then CM, CA" onApply=${(i, a) => { if (i < 10) set(['rate', 'clin', clinIds[i]], a); else if (i === 10) set(['rate', 'cm'], a); else if (i === 11) set(['rate', 'ca'], a); }} /><button className="btn ghost" onClick=${() => { const r = clone(p.rate); clinIds.forEach(id => { r.clin[id] = C.arr12(r.clin[id]).map(v => v * 1.03); }); r.cm = C.arr12(r.cm).map(v => v * 1.03); r.ca = C.arr12(r.ca).map(v => v * 1.03); set(['rate'], r); }}>Apply +3% to all rates</button></div>`}>
+      <${RowGrid} labels=${clinIds.map(id => id + ' clinician')} dec=${2} step=${0.5} width=${60} yearCol="avg" fmtRO=${v => '$' + v.toFixed(2)} vals=${ri => C.arr12(p.rate.clin[clinIds[ri]])} onSetRow=${(ri, a) => set(['rate', 'clin', clinIds[ri]], a)} />
+      <h4>Intake</h4><${RowGrid} labels=${['Care Manager', 'Care Assistant']} dec=${2} step=${0.5} width=${60} yearCol="avg" vals=${ri => C.arr12(ri === 0 ? p.rate.cm : p.rate.ca)} onSetRow=${(ri, a) => set(['rate', ri === 0 ? 'cm' : 'ca'], a)} />
+      <div className="row"><span className="slab">Stipends ($ per month)</span>${['NT', 'NU', 'YT'].map(id => html`<${Field} key=${id} label=${id}><${Num} value=${p.stipend[id]} dec=${0} step=${100} min=${0} width=${88} onChange=${v => set(['stipend', id], v)} /><//>`)}</div>
+    <//>
+    <${Card} title="8 · Additional costs (added to total COGS)" sub="Costs that sit alongside scheduled hours, entered per month. They are included in Total COGS on the summary and in the header. Rename, edit, add or remove lines freely."
+      right=${html`<div className="btnrow"><button className="btn" onClick=${() => set(['extras'], p.extras.concat([{ id: 'x' + Date.now().toString(36), name: 'New cost line', monthly: new Array(12).fill(0) }]))}>Add cost line</button><button className="btn ghost" onClick=${() => set(['extras'], clone(def.extras))}>Restore referral bonus / other taxable</button></div>`}>
+      <div className="tscroll"><table className="t sm sheet"><thead><tr><th className="fc">Cost line</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}<th className="r">Year</th><th></th><th></th></tr></thead><tbody>
+        ${p.extras.map((e, ri) => { const v = C.arr12(e.monthly); return html`<tr key=${e.id}><td className="fc"><input className="num txt" value=${e.name} onChange=${ev => set(['extras', ri, 'name'], ev.target.value)} aria-label="Cost line name" /></td>${v.map((x, m) => html`<td key=${m} className="r"><${Num} value=${x} dec=${0} step=${100} min=${0} width=${72} onChange=${n => set(['extras', ri, 'monthly'], v.map((q, j) => (j === m ? n : q)))} /></td>`)}<td className="r strong">${money(sum(v))}</td><td><${FillBox} pct=${false} onFill=${n => set(['extras', ri, 'monthly'], new Array(12).fill(n))} /></td><td><button className="btn ghost" onClick=${() => set(['extras'], p.extras.filter((_, j) => j !== ri))} title="Remove line">✕</button></td></tr>`; })}
+        <tr className="strong tot"><td className="fc">Total additional costs</td>${MONTHS.map((_, m) => html`<td key=${m} className="r">${money(run.cogs.extraM[m])}</td>`)}<td className="r">${money(sum(run.cogs.extraM))}</td><td></td><td></td></tr></tbody></table></div>
+      <p className="note">Defaults: referral bonus $88,976 and other taxable $8,722 per month. Paste from Sheets works on the numbers via the Rates section style if you prefer; each line is a plain monthly dollar amount.</p>
+    <//>
+    <${Card} title="9 · Scheduling inputs by tab" sub="Supply availability (the reduction applied to required supply) per tab, and the CA : CM ratio per intake region."
+      right=${html`<button className="btn ghost" onClick=${() => { set(['avail'], clone(def.avail)); set(['cmca'], clone(def.cmca)); }}>Restore sheet values</button>`}>
+      <div className="grid2"><div><h4>Supply availability</h4><table className="t sm"><thead><tr><th>Tab</th><th>Availability</th></tr></thead><tbody>${clinIds.map(id => html`<tr key=${id}><td><b>${id}</b> clinical</td><td><${Num} value=${p.avail.clin[id]} pct=${true} dec=${0} step=${1} min=${10} max=${200} width=${64} suffix="%" onChange=${v => set(['avail', 'clin', id], v)} /></td></tr>`)}
+          ${REGIONS.map(r => html`<tr key=${'i' + r}><td>${REG_NAME[r]} intake (on CM)</td><td><${Num} value=${p.avail.int[r]} pct=${true} dec=${0} step=${1} min=${10} max=${200} width=${64} suffix="%" onChange=${v => set(['avail', 'int', r], v)} /></td></tr>`)}</tbody></table></div>
+        <div><h4>CA : CM ratio (CM = ROUNDUP(total ÷ ratio))</h4><table className="t sm"><thead><tr><th>Intake tab</th><th>Ratio</th></tr></thead><tbody>${REGIONS.map(r => html`<tr key=${r}><td>${REG_NAME[r]}</td><td><${Num} value=${p.cmca[r]} dec=${2} step=${0.1} min=${1} width=${64} onChange=${v => set(['cmca', r], v)} /></td></tr>`)}</tbody></table></div></div>
+    <//>
+  </div>`;
+}
+
+// ================= FORECAST =================
+function ForecastTab({ p, set, run }) {
+  const manual = p.mode === 'manual';
+  const dem = run.dem;
+  const arrIn = (path, vals, dec = 0, step = 1) => html`${vals.map((v, i) => html`<td key=${i} className="r"><${Num} value=${v} dec=${dec} step=${step} min=${0} width=${70} onChange=${x => set(path.concat([i]), x)} /></td>`)}`;
+  const cell = (v, d = 0) => hn(v, d);
+  const L = p.lives;
+  return html`<div className="stack">
+    <${Card} title="Forecast source" sub="Pick how weekly consult volume is produced. 'Sheet forecast' is the RD1.V10B National Forecast; 'Lives × utilization' rebuilds it from the inputs below; 'Manual entry' lets you type weekly consults for every province and region.">
+      <div className="row"><${Seg} value=${p.mode} onChange=${v => set(['mode'], v)} options=${[{ v: 'lives', l: 'Inputs chain (lives → consults)' }, { v: 'sheet', l: 'Sheet weekly values' }, { v: 'manual', l: 'Manual entry' }]} />
+        <${Field} label="Clinical volume adjustment"><${Slider} value=${p.volAdj.clin} min=${-0.3} max=${0.3} step=${0.005} onChange=${v => set(['volAdj', 'clin'], v)} fmt=${v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'} /><//>
+        <${Field} label="Intake volume adjustment"><${Slider} value=${p.volAdj.int} min=${-0.3} max=${0.3} step=${0.005} onChange=${v => set(['volAdj', 'int'], v)} fmt=${v => (v >= 0 ? '+' : '') + (v * 100).toFixed(1) + '%'} /><//></div>
+      ${p.mode === 'lives' ? html`<p className="note">Lives, utilization, automation and the regional distribution are entered on the Inputs tab; the numbers below are what they produce, split into provinces by the locality shares.</p>` : null}
+    <//>
+    <${Card} title="Clinical · average consults per week by province" sub=${manual ? 'Manual entry — type any cell. Territories (NT, NU, YT) are forecast but staffed by stipend.' : 'Region weekly volume × the sheet\'s locality share (Weekly Forecast Importrange). Switch to Manual entry to overwrite.'}
+      right=${manual ? html`<button className="btn" onClick=${() => { const o = {}; PROVS.forEach(pv => { o[pv] = dem.clin[pv].map(v => Math.round(v)); }); set(['manualClin'], o); }}>Load current values</button>` : null}>
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Region</th><th>Province</th><th>Type</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}<th className="r">Avg</th></tr></thead><tbody>
+        ${PROVS.map(pv => html`<tr key=${pv}><td className="mute">${REG_NAME[PROV[pv].region]}</td><td><b>${pv}</b></td><td className="mute">${PROV[pv].type === 'profiled' ? 'profiled' : PROV[pv].type === 'fixed' ? 'hrs of operation' : 'stipend'}</td>
+          ${manual ? arrIn(['manualClin', pv], p.manualClin[pv], 0, 5) : dem.clin[pv].map((v, i) => html`<td key=${i} className="r">${cell(v)}</td>`)}<td className="r strong">${cell(avg(dem.clin[pv]))}</td></tr>`)}
+        <tr className="strong"><td colSpan="3">Total</td>${MONTHS.map((_, m) => html`<td key=${m} className="r">${cell(sum(PROVS.map(pv => dem.clin[pv][m])))}</td>`)}<td className="r">${cell(avg(MONTHS.map((_, m) => sum(PROVS.map(pv => dem.clin[pv][m])))))}</td></tr></tbody></table></div>
+    <//>
+    <${Card} title="Intake · average consults per week by region" sub=${manual ? 'Manual entry.' : 'From the Intakes Weekly Forecast Importrange (Intake_only + Intake_and_Clinical).'}
+      right=${manual ? html`<button className="btn" onClick=${() => { const o = {}; REGIONS.forEach(r => { o[r] = dem.int[r].map(v => Math.round(v)); }); set(['manualInt'], o); }}>Load current values</button>` : null}>
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Region</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}<th className="r">Avg</th></tr></thead><tbody>
+        ${REGIONS.map(r => html`<tr key=${r}><td><b>${REG_NAME[r]}</b></td>${manual ? arrIn(['manualInt', r], p.manualInt[r], 0, 5) : dem.int[r].map((v, i) => html`<td key=${i} className="r">${cell(v)}</td>`)}<td className="r strong">${cell(avg(dem.int[r]))}</td></tr>`)}
+        <tr className="strong"><td>Total</td>${MONTHS.map((_, m) => html`<td key=${m} className="r">${cell(sum(REGIONS.map(r => dem.int[r][m])))}</td>`)}<td></td></tr></tbody></table></div>
+    <//>
+    ${manual ? null : html`<${Card} title="Locality split inside multi-province regions (editable)" sub="Share of the region's weekly clinical volume by province, per month (percent). Auto-normalised to 100%.">
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Region</th><th>Locality</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}</tr></thead><tbody>
+        ${['PR', 'ATL'].map(r => Object.keys(p.loc[r]).map(k => html`<tr key=${r + k}><td className="mute">${REG_NAME[r]}</td><td><b>${k}</b></td>${p.loc[r][k].map((v, i) => html`<td key=${i} className="r"><${Num} value=${v} dec=${2} step=${0.1} min=${0} width=${62} onChange=${x => set(['loc', r, k, i], x)} /></td>`)}</tr>`))}</tbody></table></div><//>`}
+    <${Card} title="Consults per hour, occupancy and rates" sub="Moved to the Inputs tab (sections 5–7) so everything that drives the province tabs is in one place."><p className="note">Weeks per month use days ÷ 7; monthly hours use the actual count of each weekday in the month.</p><//>
+  </div>`;
+}
+
+// ================= HOURS & COST (Hours and COGs + Top Ups) =================
+const SHEET_JAN = { QC:[7044, 6913, 4439], ON:[4118, 3884, 2360], BC:[1747, 1658, 1061], AB:[1319, 1402, 200], NB:[650, 948, 409], NS:[754, 1032, 469], NL:[1028, 1308, 323], SK:[372, 744, 236], MB:[372, 744, 326], PE:[372, 744, 218] };
+function HoursTab({ p, set, run }) {
+  const [pool, setPool] = useState('clin'), [mo, setMo] = useState(0);
+  const team = pool === 'clin' ? 'clin' : 'int';
+  const ids = pool === 'clin' ? clinIds : REGIONS;
+  const ovSet = (kind, id, v) => { const key = team + ':' + id, arr = (p.ov[kind][key] || new Array(12).fill(null)).slice(); arr[mo] = v; set(['ov', kind, key], arr); };
+  const ovGet = (kind, id) => (p.ov[kind][team + ':' + id] || [])[mo];
+  const rows = ids.map(id => ({ id, m: pool === 'clin' ? (run.units.clin[id] ? run.units.clin[id].months : null) : run.units.int[id].months })).filter(r => r.m);
+  const totH = MONTHS.map((_, m) => sum(rows.map(r => r.m[m].plannedH)));
+  const rate = (id) => (pool === 'clin' ? run.rates.clin[id][mo] : run.rates.cm[mo]);
+  return html`<div className="stack">
+    <${Card} title="Hours and cost" sub="Hours follow the province tabs: hourly supply = MAX(ROUND(demand ÷ CPH),1), reduced by availability, averaged into shift blocks, then Master → Open → Top-up over the Nov–Oct cycle. Blank override boxes use the computed value."
+      right=${html`<${Seg} value=${pool} onChange=${setPool} options=${[{ v: 'clin', l: 'Clinical NPs' }, { v: 'int', l: 'Intake (CM + CA)' }]} />`}>
+      <div className="row"><${Field} label="Supply requirement"><${Seg} value=${p.supplyModel} onChange=${v => set(['supplyModel'], v)} options=${[{ v: 'sheet', l: 'Sheet: MAX(ROUND(÷ CPH),1)' }, { v: 'erlang', l: 'Erlang C / SLA' }]} /><//>
+        <${Field} label="Master buffer"><${Slider} value=${p.engine.masterRed} min=${0} max=${0.6} step=${0.01} onChange=${v => set(['engine', 'masterRed'], v)} fmt=${v => (v * 100).toFixed(0) + '%'} /><//>
+        <${Field} label="Open buffer"><${Slider} value=${p.engine.openRed} min=${0} max=${0.6} step=${0.01} onChange=${v => set(['engine', 'openRed'], v)} fmt=${v => (v * 100).toFixed(0) + '%'} /><//>
+        <${Field} label="Top-up fill"><${Slider} value=${p.engine.topFill} min=${0.5} max=${1} step=${0.01} onChange=${v => set(['engine', 'topFill'], v)} fmt=${v => (v * 100).toFixed(0) + '%'} /><//></div>
+    <//>
+    <${Card} title=${(pool === 'clin' ? 'Clinical' : 'Intake') + ' · planned hours by month'} sub="Scheduled (block) hours after availability and any override. Intake rows are CM blocks + CA hourly requirement.">
+      <div className="tscroll"><table className="t sm"><thead><tr><th>${pool === 'clin' ? 'Province' : 'Region'}</th><th>Availability %</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}<th className="r">Total</th><th className="r">Cost</th></tr></thead><tbody>
+        ${rows.map(r => { const cs = pool === 'clin' ? run.cost.clin[r.id] : run.cost.cm[r.id].map((c, i) => ({ master: c.master + run.cost.ca[r.id][i].master, open: c.open, top: c.top })); return html`<tr key=${r.id}><td><b>${nameOf(pool === 'clin' ? 'clin' : 'int', r.id)}</b></td>
+          <td><${Num} value=${p.avail[team][r.id]} pct=${true} dec=${0} step=${1} min=${10} max=${200} width=${62} suffix="%" onChange=${v => set(['avail', team, r.id], v)} /></td>
+          ${r.m.map((x, i) => html`<td key=${i} className="r">${hn(x.plannedH)}</td>`)}<td className="r strong">${hn(sum(r.m.map(x => x.plannedH)))}</td><td className="r">${money(sum(cs.map(c => c.master + c.open + c.top)))}</td></tr>`; })}
+        <tr className="strong"><td colSpan="2">Total</td>${totH.map((v, i) => html`<td key=${i} className="r">${hn(v)}</td>`)}<td className="r">${hn(sum(totH))}</td><td></td></tr></tbody></table></div>
+      ${pool === 'clin' ? html`<p className="note">Availability defaults are the Supply Availability cells on each province tab (QC 95, ON 90, BC 85, AB 88, NB/NS/NL 80; MB, SK, PE 100).</p>` : html`<p className="note">Availability on an intake tab reduces CM supply only; CA supply is the remainder of the single contact centre requirement.</p>`}
+    <//>
+    <${Card} title=${'Top-ups tracker · ' + MONTHS[mo] + ' 2027'} sub="Same columns as the Top Ups tab. Type into Hours / Master / Open / Released to overwrite a computed value; clear the box to go back."
+      right=${html`<${Field} label="Month"><select value=${mo} onChange=${e => setMo(+e.target.value)}>${MONTHS.map((m, i) => html`<option key=${m} value=${i}>${m}</option>`)}</select><//>`}>
+      <div className="tscroll"><table className="t sm"><thead><tr><th>${pool === 'clin' ? 'Province' : 'Region'}</th><th className="r">Forecast hrs</th><th className="r">Reduced forecast</th><th>Hours override</th><th className="r">Master</th><th>Master ovr.</th><th className="r">Open</th><th>Open ovr.</th><th className="r">Top-up req.</th><th>Released ovr.</th><th className="r">Released</th><th className="r">Remaining</th><th className="r">Rate</th><th className="r">Top-up cost</th><th className="r">Total cost</th>${pool === 'clin' && !(p.mode !== 'sheet') ? html`<th className="r mute">Sheet Jan</th>` : null}</tr></thead><tbody>
+        ${rows.map(r => { const x = r.m[mo], fx = false; const cs = pool === 'clin' ? run.cost.clin[r.id][mo] : { master: run.cost.cm[r.id][mo].master + run.cost.ca[r.id][mo].master, open: run.cost.cm[r.id][mo].open, top: run.cost.cm[r.id][mo].top }; const sh = SHEET_JAN[r.id];
+          return html`<tr key=${r.id}><td><b>${nameOf(pool === 'clin' ? 'clin' : 'int', r.id)}</b></td><td className="r">${hn(x.forecastH)}</td><td className="r">${hn(x.reducedH)}</td>
+          <td><${OptNum} value=${ovGet('hours', r.id)} onChange=${v => ovSet('hours', r.id, v)} /></td>
+          <td className="r">${hn(x.master)}</td><td><${OptNum} value=${ovGet('master', r.id)} onChange=${v => ovSet('master', r.id, v)} /></td>
+          <td className="r">${hn(x.open)}</td><td><${OptNum} value=${ovGet('open', r.id)} onChange=${v => ovSet('open', r.id, v)} /></td>
+          <td className="r">${hn(x.topNeeded)}</td><td><${OptNum} value=${ovGet('released', r.id)} onChange=${v => ovSet('released', r.id, v)} /></td>
+          <td className="r">${hn(x.topReleased)}</td><td className=${'r ' + (x.topRemaining > 1 ? 'bad' : '')}>${hn(x.topRemaining)}</td><td className="r">${'$' + fmt2(rate(r.id))}</td><td className="r">${money(cs.top)}</td><td className="r strong">${money(cs.master + cs.open + cs.top)}</td>
+          ${pool === 'clin' && p.mode === 'sheet' ? html`<td className="r mute">${sh && mo === 0 ? hn(sh[0]) + ' / ' + hn(sh[1]) + ' / ' + hn(sh[2]) : '–'}</td>` : null}</tr>`; })}</tbody></table></div>
+      <p className="note">${pool === 'clin' ? 'Sheet Jan column shows Forecast / Reduced forecast / Current master hours from the Top Ups tab (January) for comparison.' : 'Care Assistants are a fixed-schedule pool: their share of the hours is costed directly and bypasses Master/Open/Top-up.'} Master and Open overrides rescale the computed hourly layers; top-up required is whatever is left.</p>
+      <p className="note">Rates and stipends are entered by month on the Inputs tab (section 7).</p>
+    <//></div>`;
+}
+
+// ================= FTE & HIRING =================
+function FTETab({ p, set, run }) {
+  const [pool, setPool] = useState('clin'), [id, setId] = useState('QC');
+  const ids = pool === 'clin' ? clinIds : REGIONS;
+  const uid = ids.includes(id) ? id : ids[0];
+  const f = run.fte[pool][uid], cfg = p.fte[pool][uid];
+  const row = (label, vals, dec = 1, cls) => html`<tr><td>${label}</td>${vals.map((v, i) => html`<td key=${i} className=${'r ' + (cls || '')}>${v == null ? '' : hn(v, dec)}</td>`)}</tr>`;
+  const edit = (label, key, step, dec) => html`<tr><td>${label}</td>${cfg[key].map((v, i) => html`<td key=${i} className="r"><${Num} value=${v} dec=${dec} step=${step} min=${0} width=${60} onChange=${x => set(['fte', pool, uid, key, i], x)} /></td>`)}</tr>`;
+  const autoFill = () => { // greedy: add hires in the month a shortage appears
+    const c = clone(cfg); c.hires = new Array(12).fill(0);
+    for (let m = 0; m < 12; m++) { const r = C.fteCalc(p, c, f.map(x => x.hours)); if (r[m].hireHC > 0.001) c.hires[m] = Math.ceil(r[m].hireHC * 10) / 10; }
+    set(['fte', pool, uid], c);
+  };
+  const label = pool === 'clin' ? { h: 'NP / MD hours required', a: 'Avg hours per week per clinician', hc: 'Clinician head count', net: 'Net clinician head count' } : pool === 'cm' ? { h: 'CM hours required', a: 'Avg hours per week per CM', hc: 'CM head count', net: 'Net CM head count' } : { h: 'CA hours required', a: 'Hours per week per CA', hc: 'CA head count', net: 'Net CA head count' };
+  return html`<div className="stack">
+    <${Card} title="FTE and hiring requirements" sub="Same rows as the FTE and Hiring tabs: hours required → FTE required → head count, attrition and hiring → hours supplied → available FTE → required hiring. Everything in a white box is yours to edit."
+      right=${html`<div className="btnrow"><${Seg} value=${pool} onChange=${v => setPool(v)} options=${[{ v: 'clin', l: 'Clinical NPs' }, { v: 'cm', l: 'Intake CMs' }, { v: 'ca', l: 'Intake CAs' }]} /></div>`}>
+      <div className="row wrap"><${Field} label=${pool === 'clin' ? 'Province' : 'Region'}><${Seg} value=${uid} onChange=${setId} options=${ids.map(x => ({ v: x, l: nameOf(pool, x) }))} /><//>
+        <${Field} label="FTE hours per day"><${Num} value=${p.fteHoursPerDay} dec=${2} step=${0.25} min=${1} max=${12} width=${66} onChange=${v => set(['fteHoursPerDay'], v)} /><//>
+        <${Field} label="Starting head count (Jan)"><${Num} value=${cfg.start} dec=${1} step=${1} min=${0} width=${72} onChange=${v => set(['fte', pool, uid, 'start'], v)} /><//>
+        <${Field} label="Set avg hrs/week (all months)"><${Num} value=${cfg.avg[0]} dec=${1} step=${0.5} min=${0} width=${72} onChange=${v => set(['fte', pool, uid, 'avg'], new Array(12).fill(v))} /><//>
+        <button className="btn" onClick=${autoFill}>Fill hiring to close shortages</button><button className="btn ghost" onClick=${() => set(['fte', pool, uid, 'hires'], new Array(12).fill(0))}>Clear hiring</button></div>
+      <div className="tscroll"><table className="t sm fte"><thead><tr><th>${nameOf(pool, uid)}</th>${MONTHS.map((m, i) => html`<th key=${m} className="r">${m} 2027</th>`)}</tr></thead><tbody>
+        <tr><td className="mute">Working days</td>${p.workDays.map((v, i) => html`<td key=${i} className="r"><${Num} value=${v} dec=${0} step=${1} min=${0} width=${52} onChange=${x => set(['workDays', i], x)} /></td>`)}</tr>
+        ${row(label.h, f.map(x => x.hours), 0)}${row('FTE required', f.map(x => x.reqFTE), 1, 'strong')}
+        ${edit(label.a, 'avg', 0.5, 1)}${row(label.hc, f.map(x => x.head), 1)}${edit('Attrition (actual or expected)', 'attr', 1, 1)}${edit('Hiring', 'hires', 1, 1)}${row(label.net, f.map(x => x.net), 1, 'strong')}
+        ${row('Hours supplied', f.map(x => x.supplied), 0)}${row('Available FTE supply', f.map(x => x.supFTE), 1, 'strong')}
+        <tr><td>FTE gap (supply − required)</td>${f.map((x, i) => html`<td key=${i} className="r" style=${tint(x.gap)}>${hn(x.gap, 1)}</td>`)}</tr>
+        <tr><td>Required hiring (FTE)</td>${f.map((x, i) => html`<td key=${i} className=${'r ' + (x.hireFTE > 0.05 ? 'bad' : 'mute')}>${x.hireFTE > 0.05 ? hn(x.hireFTE, 1) : 'No hiring required'}</td>`)}</tr>
+        <tr><td>Head count to hire</td>${f.map((x, i) => html`<td key=${i} className=${'r ' + (x.hireHC > 0.05 ? 'bad' : 'mute')}>${x.hireHC > 0.05 ? hn(x.hireHC, 1) : '–'}</td>`)}</tr></tbody></table></div>
+      ${cfg.start === 0 ? html`<p className="note bad">No head count in the sheet for ${uid} — enter a starting head count above; until then the whole requirement shows as a shortage.</p>` : null}
+    <//>
+    <${Card} title="Hiring needs across all units" sub="Peak monthly shortage in FTE and the head count it implies (from each unit's current head count and hours per week).">
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Team</th><th>Unit</th><th className="r">Start HC</th><th className="r">Avg hrs/wk</th><th className="r">Peak FTE short</th><th className="r">Peak HC to hire</th><th className="r">Month</th></tr></thead><tbody>
+        ${['clin', 'cm', 'ca'].map(k => (k === 'clin' ? clinIds : REGIONS).map(u => { const ff = run.fte[k][u]; if (!ff) return null; const mx = Math.max(...ff.map(x => x.hireFTE)), mi = ff.findIndex(x => x.hireFTE === mx), c2 = p.fte[k][u];
+          return html`<tr key=${k + u}><td>${k === 'clin' ? 'NP' : k.toUpperCase()}</td><td><b>${nameOf(k, u)}</b></td><td className="r">${hn(c2.start, 1)}</td><td className="r">${hn(avg(c2.avg), 1)}</td><td className=${'r ' + (mx > 0.05 ? 'bad' : '')}>${hn(mx, 1)}</td><td className="r">${hn(Math.max(...ff.map(x => x.hireHC)), 1)}</td><td className="r">${mx > 0.05 ? MONTHS[mi] : '–'}</td></tr>`; }))}</tbody></table></div><//></div>`;
+}
+
+// ================= EXPECTED PERFORMANCE =================
+function PerfTab({ p, set, run }) {
+  const [unit, setUnit] = useState('clin:QC');
+  const [k, id] = unit.split(':');
+  const prof = [...clinIds.map(x => ({ v: 'clin:' + x, l: x })), ...REGIONS.map(x => ({ v: 'int:' + x, l: 'Intake ' + REG_NAME[x] }))];
+  const tgt = k === 'clin' ? (p.slaProv[id] || p.sla.clin) : p.sla.int;
+  const curve = useMemo(() => [0.7, 0.75, 0.8, 0.85, 0.9, 0.95, 1.0, 1.05, 1.1].map(v => { const q = clone(p); q.avail[k][id] = v; const ms = C.unitSummary(q, k, id); const den = sum(ms.map(x => x.den)), sl = sum(ms.map(x => x.sl * x.den)) / (den || 1), asa = sum(ms.map(x => x.asa * x.den)) / (den || 1); return { v, sl, asa, hrs: sum(ms.map(x => x.plannedH)) }; }), [JSON.stringify(p), unit]);
+  const sla = (u, m) => run.units[u.k][u.id].months[m];
+  const units = [...clinIds.map(x => ({ k: 'clin', id: x, name: x })), ...REGIONS.map(x => ({ k: 'int', id: x, name: 'Intake ' + REG_NAME[x] }))];
+  const target = u => (u.k === 'clin' ? (p.slaProv[u.id] || p.sla.clin) : p.sla.int);
+  const EXPECT = { QC: .95, ON: .90, BC: .85, AB: .88, NB: .80, NS: .80, NL: .80 };
+  return html`<div className="stack">
+    <${Card} title="Expected performance" sub="Service level and wait time the planned supply delivers (Erlang C on the effective supply: Master + Open + filled top-up). Same layout as the Expected Performance tab. The estimate method (sheet peak-factor method or Erlang C), wait threshold and the SLA basis are set on each province tab."
+      right=${html`<div className="btnrow"><button className="btn" onClick=${() => { Object.keys(EXPECT).forEach(x => set(['avail', 'clin', x], EXPECT[x])); }}>Apply tab's 'Input % of Hours' (95/90/85/88/80)</button><button className="btn ghost" onClick=${() => { const d = C.mkPlan(); set(['avail'], d.avail); }}>Restore availability</button></div>`}>
+      <div className="row"><${Field} label="Estimate method"><${Seg} value=${p.slaMethod} onChange=${v => set(['slaMethod'], v)} options=${[{ v: 'sheet', l: 'Sheet method' }, { v: 'erlang', l: 'Erlang C' }]} /><//><${Field} label="Clinical target"><span className="inl"><${Num} value=${p.sla.clin.pct} pct=${true} dec=${0} step=${1} max=${99.9} width=${58} onChange=${v => set(['sla', 'clin', 'pct'], v)} />% within <${Num} value=${p.sla.clin.mins} dec=${0} step=${5} min=${1} width=${58} onChange=${v => set(['sla', 'clin', 'mins'], v)} /> min</span><//>
+        <${Field} label="Intake target"><span className="inl"><${Num} value=${p.sla.int.pct} pct=${true} dec=${0} step=${1} max=${99.9} width=${58} onChange=${v => set(['sla', 'int', 'pct'], v)} />% within <${Num} value=${p.sla.int.mins} dec=${1} step=${0.5} min=${0.5} width=${58} onChange=${v => set(['sla', 'int', 'mins'], v)} /> min</span><//></div>
+      <h4>Service level</h4>
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Unit</th><th className="r">Availability</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}<th className="r">Year</th></tr></thead><tbody>
+        ${units.map(u => { const ms = run.units[u.k][u.id].months, t = target(u), den = sum(ms.map(x => x.den)), yr = sum(ms.map(x => x.sl * x.den)) / (den || 1); return html`<tr key=${u.k + u.id}><td><b>${u.name}</b></td><td className="r">${pct1(p.avail[u.k][u.id])}</td>${ms.map((x, i) => html`<td key=${i} className=${'r ' + (x.sl >= t.pct ? 'good' : 'bad')}>${(x.sl * 100).toFixed(0)}%</td>`)}<td className=${'r strong ' + (yr >= t.pct ? 'good' : 'bad')}>${pct1(yr)}</td></tr>`; })}</tbody></table></div>
+      <h4>Average wait (minutes)</h4>
+      <div className="tscroll"><table className="t sm"><thead><tr><th>Unit</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}</tr></thead><tbody>
+        ${units.map(u => html`<tr key=${u.k + u.id}><td><b>${u.name}</b></td>${run.units[u.k][u.id].months.map((x, i) => html`<td key=${i} className="r">${hn(x.asa, 1)}</td>`)}</tr>`)}</tbody></table></div>
+    <//>
+    <${Card} title="Availability sensitivity" sub="What happens to service level, wait and hours as the availability % moves, for one unit across the whole year."
+      right=${html`<${Field} label="Unit"><select value=${unit} onChange=${e => setUnit(e.target.value)}>${prof.map(o => html`<option key=${o.v} value=${o.v}>${o.l}</option>`)}</select><//>`}>
+      <div className="grid2"><${Chart} labels=${curve.map(c => Math.round(c.v * 100) + '%')} series=${[{ type: 'line', name: 'Service level', values: curve.map(c => c.sl), color: 'var(--c3)' }]} yMax=${1} yFmt=${v => (v * 100).toFixed(0) + '%'} refL=${[{ v: tgt.pct, label: 'target' }]} h=${240} note="Availability % on the horizontal axis" />
+        <table className="t sm"><thead><tr><th>Availability</th><th className="r">Hours / yr</th><th className="r">Service level</th><th className="r">Avg wait (min)</th></tr></thead><tbody>${curve.map(c => html`<tr key=${c.v}><td>${Math.round(c.v * 100)}%</td><td className="r">${hn(c.hrs)}</td><td className=${'r ' + (c.sl >= tgt.pct ? 'good' : 'bad')}>${pct1(c.sl)}</td><td className="r">${hn(c.asa, 1)}</td></tr>`)}</tbody></table></div><//></div>`;
+}
+
+// ================= PROVINCE TABS (sheet layout) =================
+const hlabel = x => (x % 12 === 0 ? 12 : x % 12) + ':00 ' + (x < 12 ? 'AM' : 'PM');
+function Sec({ title, sub, open, toggle, children }) {
+  return html`<section className="card sec"><button className="sechead" onClick=${toggle}><span>${open ? '▾' : '▸'}</span><b>${title}</b>${sub ? html`<em>${sub}</em>` : null}</button>${open ? children : null}</section>`;
+}
+function Grid({ sel, rows, cell, fmt = v => v, totals, head, edit, hl }) {
+  return html`<div className="tscroll"><table className="t sm sheet"><thead>
+    <tr><th rowSpan="2" className="fc">${head || ''}</th>${sel.map(m => html`<th key=${m} colSpan="7" className="mh">${MONTHS[m]} 2027</th>`)}</tr>
+    <tr>${sel.map(m => DOW.map((d, i) => html`<th key=${m + '_' + i} className="r dh">${d}</th>`))}</tr></thead><tbody>
+    ${rows.map((r, ri) => html`<tr key=${ri}><td className="fc">${r}</td>${sel.map(m => [0, 1, 2, 3, 4, 5, 6].map(d => { const v = cell(m, ri, d); const e = edit ? edit(m, ri, d, v) : null; return html`<td key=${m + '_' + d} className=${'r ' + (hl && hl(m, ri, d, v) ? 'hot' : '')}>${e || (v == null ? '' : fmt(v))}</td>`; }))}</tr>`)}
+    ${(totals || []).map((t, ti) => html`<tr key=${'t' + ti} className="strong tot"><td className="fc">${t.label}</td>${sel.map(m => [0, 1, 2, 3, 4, 5, 6].map(d => html`<td key=${m + '_' + d} className="r">${t.fn(m, d) == null ? '' : (t.fmt || fmt)(t.fn(m, d))}</td>`))}</tr>`)}
+  </tbody></table></div>`;
+}
+function ProvTab({ p, set, run }) {
+  const [kind, setKind] = useState('clin'), [id, setId] = useState('QC'), [mon, setMon] = useState(0), [opn, setOpn] = useState({ dist: true, dem: true, sup: true, red: false, sla: false, blk: true, mas: false, open: false, top: false, cogs: true, chart: true }), [cd, setCd] = useState(1);
+  const ids = kind === 'clin' ? clinIds : REGIONS;
+  const uid = ids.includes(id) ? id : ids[0];
+  const U = run.units[kind][uid], mt = U.mt, blocks = U.blocks, months = U.months, intake = kind === 'int', key = kind + ':' + uid;
+  const sel = mon === 'all' ? MONTHS.map((_, i) => i) : [mon], single = mon !== 'all';
+  const tg = k => setOpn(o => ({ ...o, [k]: !o[k] }));
+  const lab = h => hlabel(U.lab(h));
+  const hourRows = Array.from({ length: 24 }, (_, h) => lab(h));
+  const blkRows = blocks.map(b => hlabel(b[0]) + ' · ' + b[1] + 'h');
+  const blkTot = fn => ({ fn });
+  const tgt = (kind === 'clin' ? p.slaProv[uid] : null) || p.sla[kind];
+  const rateM = kind === 'clin' ? run.rates.clin[uid] : run.rates.cm, rate = avg(rateM);
+  const base = Array.from(mt.prof).map(v => v * 100);
+  const editDist = (h, d, v) => { const a = (p.profile[key] && p.profile[key].length === 168) ? p.profile[key].slice() : base.slice(); a[d * 24 + h] = v; set(['profile', key], a); };
+  const ovCell = (grid, m, b, d, computed) => html`<${OptNum} value=${((p.bov[key] || {})[grid] || {})[m + ':' + b + ':' + d]} placeholder=${String(computed)} width=${56} onChange=${v => set(['bov', key, grid, m + ':' + b + ':' + d], v)} />`;
+  const setCph = v => { if (kind === 'clin') set(['cphProv', uid], new Array(12).fill(v / (1 + p.cphUp.clin))); else set(['cph', 'int', uid], new Array(12).fill(v / (1 + p.cphUp.int))); };
+  const m0 = months[single ? mon : 0];
+  const blocksEdit = (i, j, v) => set(['blocks', key, i, j], v);
+  const chartM = single ? mon : 0, cx = months[chartM];
+  const hrs = Array.from({ length: 24 }, (_, h) => lab(h).replace(':00 ', ''));
+  const sched = Array.from({ length: 24 }, (_, h) => (blocks[U.bOf[h]][1] ? cx.masterGrid[U.bOf[h]][cd] + cx.openGrid[U.bOf[h]][cd] + cx.fill * cx.topGrid[U.bOf[h]][cd] : 0));
+  const monthRow = (label, fn, f = hn) => html`<tr><td className="fc">${label}</td>${months.map((x, i) => html`<td key=${i} className="r">${f(fn(x))}</td>`)}</tr>`;
+  const pctF = v => (v == null ? '' : (v * 100).toFixed(0) + '%');
+  return html`<div className="stack">
+    <div className="tabstrip"><${Seg} value=${kind} onChange=${v => { setKind(v); setId('QC'); }} options=${[{ v: 'clin', l: 'Clinical tabs' }, { v: 'int', l: 'Intake tabs' }]} />
+      <${Seg} value=${uid} onChange=${setId} options=${ids.map(x => ({ v: x, l: kind === 'clin' ? x + ' Clinical' : (x === 'PR' ? 'AB/SK/MB/Terr' : x === 'ATL' ? 'NS/NB/PE/NL' : x) + ' Intakes' }))} />
+      <${Field} label="Month view"><select value=${mon} onChange=${e => setMon(e.target.value === 'all' ? 'all' : +e.target.value)}><option value="all">All months (sheet layout)</option>${MONTHS.map((m, i) => html`<option key=${m} value=${i}>${m} 2027 (editable)</option>`)}</select><//></div>
+    <${Card} title=${(kind === 'clin' ? uid + ' Clinical' : (uid === 'PR' ? 'AB/SK/MB/Terr' : uid === 'ATL' ? 'NS/NB/PE/NL' : uid) + ' Intakes') + ' · inputs for this tab'} sub=${'Hourly rows use the sheet\'s EST row order with ' + (mt.tz ? 'local-time labels (offset ' + mt.tz + ' h)' : 'EST labels') + '; shift blocks are assigned by the label hour. Single-month view lets you type into the shaded cells.'}>
+      <div className="row wrap"><${Field} label="CPH (sets all months)" hint="edit monthly on Inputs"><${Num} value=${mt.cph} dec=${2} step=${0.01} min=${0.1} width=${72} onChange=${setCph} /><//>
+        <${Field} label=${intake ? 'Availability on CM supply' : 'Supply availability'}><${Num} value=${mt.avail} pct=${true} dec=${0} step=${1} min=${10} max=${200} width=${64} suffix="%" onChange=${v => set(['avail', kind, uid], v)} /><//>
+        ${intake ? html`<${Field} label="CA : CM ratio" hint="CM = ROUNDUP(total ÷ ratio)"><${Num} value=${p.cmca[uid]} dec=${2} step=${0.1} min=${1} width=${64} onChange=${v => set(['cmca', uid], v)} /><//>` : null}
+        <${Field} label="SLA: % within"><${Num} value=${tgt.pct} pct=${true} dec=${0} step=${1} max=${99.9} width=${60} suffix="%" onChange=${v => (kind === 'clin' ? set(['slaProv', uid], { pct: v, mins: tgt.mins }) : set(['sla', 'int', 'pct'], v))} /><//>
+        <${Field} label="Wait threshold (min)"><${Num} value=${tgt.mins} dec=${1} step=${1} min=${0.5} width=${64} onChange=${v => (kind === 'clin' ? set(['slaProv', uid], { pct: tgt.pct, mins: v }) : set(['sla', 'int', 'mins'], v))} /><//>
+        <${Field} label="Supply requirement"><${Seg} value=${p.supplyModel} onChange=${v => set(['supplyModel'], v)} options=${[{ v: 'sheet', l: 'Sheet: ÷ CPH' }, { v: 'erlang', l: 'Erlang C' }]} /><//>
+        <${Field} label="Wait / SLA estimate"><${Seg} value=${p.slaMethod} onChange=${v => set(['slaMethod'], v)} options=${[{ v: 'sheet', l: 'Sheet method' }, { v: 'erlang', l: 'Erlang C' }]} /><//>
+        <${Field} label="SLA evaluated on"><${Seg} value=${p.slaBasis} onChange=${v => set(['slaBasis'], v)} options=${[{ v: 'reduced', l: 'Reduced supply' }, { v: 'scheduled', l: 'Scheduled blocks' }]} /><//></div>
+      <div className="row wrap"><${Field} label="Master buffer"><${Slider} value=${p.engine.masterRed} min=${0} max=${0.6} step=${0.01} onChange=${v => set(['engine', 'masterRed'], v)} fmt=${v => (v * 100).toFixed(0) + '%'} /><//>
+        <${Field} label="Open buffer"><${Slider} value=${p.engine.openRed} min=${0} max=${0.6} step=${0.01} onChange=${v => set(['engine', 'openRed'], v)} fmt=${v => (v * 100).toFixed(0) + '%'} /><//>
+        <${Field} label="Top-up fill"><${Slider} value=${p.engine.topFill} min=${0.5} max=${1} step=${0.01} onChange=${v => set(['engine', 'topFill'], v)} fmt=${v => (v * 100).toFixed(0) + '%'} /><//>
+        <${Field} label="Peak factors (demand 10–18 / >18)"><span className="inl"><${Num} value=${p.peak.f1} dec=${2} step=${0.05} min=${1} width=${58} onChange=${v => set(['peak', 'f1'], v)} /><${Num} value=${p.peak.f2} dec=${2} step=${0.05} min=${1} width=${58} onChange=${v => set(['peak', 'f2'], v)} /></span><//>
+        <${Field} label="Max SLA shown"><${Num} value=${p.slaCap} pct=${true} dec=${0} step=${1} max=${100} width=${60} suffix="%" onChange=${v => set(['slaCap'], v)} /><//></div>
+      <h4>Shift blocks (Hrs Covered · block start hour)</h4>
+      <div className="row wrap">${blocks.map((b, i) => html`<span key=${i} className="blk"><${Num} value=${b[0]} dec=${0} step=${1} min=${0} max=${23} width=${46} onChange=${v => blocksEdit(i, 0, v)} /><i>h →</i><${Num} value=${b[1]} dec=${0} step=${1} min=${0} max=${24} width=${46} onChange=${v => blocksEdit(i, 1, v)} /></span>`)}
+        <button className="btn ghost" onClick=${() => set(['blocks', key], clone(C.DEFAULT_BLOCKS[kind][uid]))}>Reset blocks</button></div>
+      <h4>Weekly forecast by month (consults per week) — type to override</h4>
+      <div className="tscroll"><table className="t sm"><thead><tr>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}</tr></thead><tbody>
+        <tr>${months.map((x, i) => html`<td key=${i} className="r"><${OptNum} value=${(p.weeklyOv[key] || [])[i]} placeholder=${String(Math.round(x.weekly))} width=${62} onChange=${v => set(['weeklyOv', key], (p.weeklyOv[key] || new Array(12).fill(null)).map((q, j) => (j === i ? v : q)))} />${html`<div className="desc">${x.wd.join('·')}</div>`}</td>`)}</tr></tbody></table></div>
+      <p className="note">Under each box: how many of each weekday (Sun…Sat) the month contains. Weeks in month = days ÷ 7.</p>
+    <//>
+    <${Sec} title="Historical Encounters Distribution" sub="% of weekly volume by hour and weekday (rows 5–31)" open=${opn.dist} toggle=${() => tg('dist')}>
+      <${Grid} sel=${sel} head="Hour of Day" rows=${hourRows} fmt=${v => v.toFixed(2)} cell=${(m, h, d) => months[m].pct[h][d] * 100}
+        edit=${single ? (m, h, d, v) => html`<${Num} value=${v} dec=${2} step=${0.01} min=${0} width=${48} onChange=${x => editDist(h, d, x)} />` : null}
+        totals=${[{ label: 'Total', fn: (m, d) => sum(months[m].pct.map(r => r[d])) * 100, fmt: v => v.toFixed(2) }]} />
+      <p className="note">One profile per tab, applied to all months (edits re-normalise to 100%). ${p.profile[key] ? 'Custom profile active.' : ''} <button className="btn ghost" disabled=${!p.profile[key]} onClick=${() => { const pr = clone(p.profile); delete pr[key]; set(['profile'], pr); }}>Reset to sheet profile</button></p><//>
+    <${Sec} title="Daily Demand Profile" sub="ROUND(weekly forecast × %, 0) — consults per hour (rows 33–61)" open=${opn.dem} toggle=${() => tg('dem')}>
+      <${Grid} sel=${sel} head="Hour of Day" rows=${hourRows} cell=${(m, h, d) => months[m].demand[h][d]} totals=${[{ label: 'Total', fn: (m, d) => months[m].dayDemand[d] }]} /><//>
+    <${Sec} title=${intake ? 'Daily Supply Profile (single contact centre) · CM requirement · CA requirement' : 'Daily Supply Requirements Profile'} sub=${intake ? 'MAX(CEILING(demand ÷ CPH),1); CM = ROUNDUP(total ÷ ratio); CA = remainder' : 'MAX(ROUND(demand ÷ CPH, 0), 1) per hour (rows 64–91)'} open=${opn.sup} toggle=${() => tg('sup')}>
+      <${Grid} sel=${sel} head=${intake ? 'Total supply' : 'Hour of Day'} rows=${hourRows} cell=${(m, h, d) => months[m].req[h][d]} totals=${[{ label: 'Total', fn: (m, d) => sum(months[m].req.map(r => r[d])) }]} />
+      ${intake ? html`<h4>CM requirement</h4><${Grid} sel=${sel} head="CM" rows=${hourRows} cell=${(m, h, d) => months[m].cm[h][d]} totals=${[{ label: 'Total', fn: (m, d) => sum(months[m].cm.map(r => r[d])) }]} />
+        <h4>CA requirement (fixed schedule — not released)</h4><${Grid} sel=${sel} head="CA" rows=${hourRows} cell=${(m, h, d) => months[m].caM[h][d]} totals=${[{ label: 'Total', fn: (m, d) => sum(months[m].caM.map(r => r[d])) }]} />` : null}<//>
+    <${Sec} title=${intake ? 'CM supply after availability' : 'Supply Availability (reduced supply profile)'} sub=${'MAX(ROUND(requirement × ' + Math.round(mt.avail * 100) + '%, 0), 1) (rows 95–121)'} open=${opn.red} toggle=${() => tg('red')}>
+      <${Grid} sel=${sel} head="Hour of Day" rows=${hourRows} cell=${(m, h, d) => months[m].red[h][d]} totals=${[{ label: 'Required (daily)', fn: (m, d) => months[m].reqDay[d] }]} /><//>
+    <${Sec} title="Expected wait time and SLA" sub=${(p.slaMethod === 'erlang' ? 'Erlang C' : 'Sheet method (peak factors, capped ' + Math.round(p.slaCap * 100) + '%)') + ' · wait threshold ' + tgt.mins + ' min · ' + (p.slaBasis === 'scheduled' ? 'scheduled blocks' : 'reduced supply')} open=${opn.sla} toggle=${() => tg('sla')}>
+      ${p.slaMethod === 'sheet' ? html`<h4>Consults in wait</h4><${Grid} sel=${sel} head="Hour" rows=${hourRows} cell=${(m, h, d) => months[m].sla.inW[h][d]} />` : null}
+      <h4>Expected wait time (minutes)</h4><${Grid} sel=${sel} head="Hour" rows=${hourRows} fmt=${v => (v >= 100 ? '99+' : Math.round(v))} cell=${(m, h, d) => months[m].sla.wait[h][d]} hl=${(m, h, d, v) => v >= tgt.mins} />
+      <h4>SLA by hour (share of consults waiting under ${tgt.mins} min)</h4><${Grid} sel=${sel} head="Hour" rows=${hourRows} fmt=${pctF} cell=${(m, h, d) => months[m].sla.hs[h][d]} hl=${(m, h, d, v) => v != null && v < tgt.pct}
+        totals=${[{ label: 'Daily SLA', fn: (m, d) => months[m].sla.dsla[d], fmt: pctF }]} />
+      <div className="stats">${sel.map(m => html`<${Stat} key=${m} label=${MONTHS[m] + ' SLA'} value=${pct1(months[m].sl)} sub=${'avg wait ' + fmt1(months[m].asa) + ' min'} tone=${months[m].sl >= tgt.pct ? 'good' : 'bad'} />`)}</div><//>
+    <${Sec} title="Staffing Required by Blocks (reduction supply profile)" sub="ROUND(AVERAGE of reduced supply in each block) · block value is held for the Hrs Covered (rows 243–258)" open=${opn.blk} toggle=${() => tg('blk')}>
+      <${Grid} sel=${sel} head="Hrs · Shift Block" rows=${blkRows} cell=${(m, b, d) => months[m].staff[b][d]}
+        edit=${single ? (m, b, d, v) => ovCell('staff', m, b, d, v) : null}
+        totals=${[{ label: 'Total hours', fn: (m, d) => months[m].totDay[d] }, { label: 'Required', fn: (m, d) => months[m].reqDay[d] }]} />
+      <div className="stats"><${Stat} label=${MONTHS[sel[0]] + ' · Total staffed (hrs)'} value=${hn(months[sel[0]].staffed)} sub="Σ daily total × weekday counts" /><${Stat} label="Total reduced required (hrs)" value=${hn(months[sel[0]].reducedReq)} />${intake ? html`<${Stat} label="CA hours (fixed)" value=${hn(months[sel[0]].caH)} />` : null}<${Stat} label="Year · staffed" value=${hn(sum(months.map(x => x.staffed)))} /></div><//>
+    <${Sec} title=${(intake ? 'CM ' : 'NP / MD ') + 'Master Assignment'} sub="Minimum of each block over the 6-month period (Nov–Apr, May–Oct) less the master buffer — or type the actual master schedule" open=${opn.mas} toggle=${() => tg('mas')}>
+      <${Grid} sel=${sel} head="Hrs · Shift Block" rows=${blkRows} cell=${(m, b, d) => months[m].masterGrid[b][d]} edit=${single ? (m, b, d, v) => ovCell('master', m, b, d, v) : null}
+        totals=${[{ label: 'Total hours', fn: (m, d) => sum(months[m].masterGrid.map((r, b) => r[d] * blocks[b][1])) }]} />
+      <p className="note">Total monthly master hours: ${hn(months[sel[0]].master)} in ${MONTHS[sel[0]]}. Type a value to replace the computed master for a cell; clear it to go back.</p><//>
+    <${Sec} title=${(intake ? 'CM ' : 'NP / MD ') + 'Open shifts'} sub="Remaining after master → 3-month minimum (Nov–Jan, Feb–Apr, May–Jun, Jul–Oct) less the open buffer" open=${opn.open} toggle=${() => tg('open')}>
+      <h4>Open (remaining after master)</h4><${Grid} sel=${sel} head="Hrs · Shift Block" rows=${blkRows} cell=${(m, b, d) => months[m].openRem[b][d]} />
+      <h4>3-month minimum open shift release</h4><${Grid} sel=${sel} head="Hrs · Shift Block" rows=${blkRows} cell=${(m, b, d) => months[m].openGrid[b][d]} edit=${single ? (m, b, d, v) => ovCell('open', m, b, d, v) : null}
+        totals=${[{ label: 'Total hours', fn: (m, d) => sum(months[m].openGrid.map((r, b) => r[d] * blocks[b][1])) }]} /><//>
+    <${Sec} title="Monthly add to total to monthly open (top-ups)" sub="Whatever is left after master and open (rows 308–321)" open=${opn.top} toggle=${() => tg('top')}>
+      <${Grid} sel=${sel} head="Hrs · Shift Block" rows=${blkRows} cell=${(m, b, d) => months[m].topGrid[b][d]} totals=${[{ label: 'Total hours', fn: (m, d) => sum(months[m].topGrid.map((r, b) => r[d] * blocks[b][1])) }]} /><//>
+    <${Sec} title="Hours and COGs" sub="Hours scheduled per month × rate" open=${opn.cogs} toggle=${() => tg('cogs')}>
+      <div className="tscroll"><table className="t sm"><thead><tr><th className="fc">${nameOf(kind === 'clin' ? 'clin' : 'int', uid)} · ${intake ? 'CM at $' + fmt2(avg(run.rates.cm)) : '$' + fmt2(rate)}/hr (avg)</th>${MONTHS.map(m => html`<th key=${m} className="r">${m}</th>`)}<th className="r">Total</th></tr></thead><tbody>
+        ${[['Master hours', x => x.master], ['Open hours', x => x.open], ['Top-up hours (needed)', x => x.topNeeded], ['Top-up released', x => x.topReleased], ['Total hours', x => (intake ? x.cmPlanned : x.plannedH)]].concat(intake ? [['CA hours (fixed)', x => x.ca]] : []).map(([l, f], i) => html`<tr key=${i} className=${l === 'Total hours' ? 'strong' : ''}><td className="fc">${l}</td>${months.map((x, j) => html`<td key=${j} className="r">${hn(f(x))}</td>`)}<td className="r">${hn(sum(months.map(f)))}</td></tr>`)}
+        <tr className="strong"><td className="fc">Cost</td>${months.map((x, j) => { const c = intake ? (x.master + x.open + x.topReleased) * run.rates.cm[j] + x.ca * run.rates.ca[j] : (x.master + x.open + x.topReleased) * rateM[j]; return html`<td key=${j} className="r">${money(c)}</td>`; })}<td className="r">${money(sum(run.cost[intake ? 'cm' : 'clin'][uid].map((c, j) => c.master + c.open + c.top + (intake ? run.cost.ca[uid][j].master : 0))))}</td></tr></tbody></table></div><//>
+    <${Sec} title="Charts" sub="Hourly demand vs supply for one month and weekday" open=${opn.chart} toggle=${() => tg('chart')}>
+      <div className="row"><${Field} label="Weekday"><${Seg} value=${cd} onChange=${setCd} options=${DOW.map((d, i) => ({ v: i, l: d }))} /><//><span className="mute">${MONTHS[chartM]} (month selected above)</span></div>
+      <div className="grid2"><${Chart} labels=${hrs} series=${[{ type: 'bar', name: 'Demand ÷ CPH', values: Array.from({ length: 24 }, (_, h) => cx.demand[h][cd] / mt.cph), color: 'var(--c5)', opacity: 0.45 }, { type: 'step', name: 'Reduced supply', values: Array.from({ length: 24 }, (_, h) => cx.red[h][cd] + (intake ? cx.caM[h][cd] : 0)), color: 'var(--c2)' }, { type: 'step', name: 'Scheduled (blocks)', values: sched.map((v, h) => v + (intake ? cx.caM[h][cd] : 0)), color: 'var(--c1)' }]} yFmt=${fmt1} h=${270} />
+        <${Chart} labels=${hrs} series=${[{ type: 'bar', name: 'Consults/hr', values: Array.from({ length: 24 }, (_, h) => cx.demand[h][cd]), color: 'var(--c5)', opacity: 0.4 }, { type: 'line', name: 'SLA (right)', values: Array.from({ length: 24 }, (_, h) => (cx.sla.hs[h][cd] == null ? 0 : cx.sla.hs[h][cd])), axis: 'r', color: 'var(--c3)' }]} y2Max=${1} y2Fmt=${v => (v * 100).toFixed(0) + '%'} yFmt=${fmt1} refR=${[{ v: tgt.pct, label: 'target' }]} h=${270} /></div><//>
+  </div>`;
+}
+
+// ================= SOURCES =================
+function SourcesTab({ p }) {
+  return html`<div className="stack">
+    <${Card} title="How the plan follows your documents">
+      <table className="t sm"><thead><tr><th>Your document / section</th><th>Where it is in this plan</th></tr></thead><tbody>
+        <tr><td><b>Forecasts – National Forecast</b>: lives (row 3) → utilization (rows 18–19) → consults (26 / 101) → automation (31–32 / 107) → revised consults (33 / 108) → regional distribution (44–50 / 111–117) → weekly view (89–94 / 163–169) → CPH (70–75 / 145–150)</td><td>Inputs tab: the same chain (lives with optional annual growth, utilization, automation, regional distribution, weekly view) plus CPH, occupancy and rates by month. <i>Sheet weekly values</i> and <i>Manual by province</i> are alternative sources.</td></tr>
+        <tr><td><b>Clinical province tabs</b>: % distribution (rows 5–31), demand/hour (33–61), supply required (64–91), reduced supply (95–121), wait and SLA (123–238), shift blocks (243–258), master (262–275), open (293–306), top-ups (308–321), Hours and COGs</td><td>Province tabs, one per province, same sections in the same order, months side by side as 7-column blocks (SUN–SAT), or a single editable month.</td></tr>
+        <tr><td><b>Intake tabs</b>: single contact centre supply, CA:CM ratio, CM requirement, CM master / open / top-ups</td><td>Intake tabs (QC, ON, BC, AB/SK/MB/Terr, NS/NB/PE/NL). CM = ROUNDUP(total ÷ ratio); CA is the remainder and is costed as a fixed pool; only CM goes through master → open → top-ups.</td></tr></tbody></table><//>
+    <${Card} title="Formulas replicated from the sheets">
+      <ul className="gaps"><li><b>Demand per hour</b> = ROUND(weekly forecast × hourly %, 0).</li>
+        <li><b>Supply required</b> = MAX(ROUND(demand ÷ CPH, 0), 1) for clinical; MAX(CEILING(demand ÷ CPH), 1) for intake. The Erlang C option instead finds the smallest agent count meeting your wait threshold and SLA %.</li>
+        <li><b>Reduced supply</b> = MAX(ROUND(required × availability), 1). Availability defaults are the per-tab inputs read from the sheets (QC 95%, ON 90%, BC 85%, AB 88%, NB/NS/NL 80%).</li>
+        <li><b>Wait and SLA (sheet method)</b>: consults in wait = ROUND(MAX(peak-adjusted demand − supply × CPH, 0)), peak factors 1.15 (10–18 consults) and 1.30 (above 18); wait minutes = in-wait × (1 ÷ CPH) ÷ supply × 60 × a congestion multiplier (1, 2.5 or 3.5); hourly SLA = share of consults not waiting past the threshold, capped at 95%; daily and monthly SLA are volume-weighted.</li>
+        <li><b>Shift blocks</b>: each hour is assigned to a block by its label hour; block staffing = ROUND(AVERAGE of reduced supply in the block); hours = staffing × Hrs Covered × weekday counts.</li>
+        <li><b>Master / open / top-up</b>: master = block minimum over Nov–Apr and May–Oct less the master buffer; open = minimum of the remainder over Nov–Jan, Feb–Apr, May–Jun, Jul–Oct less the open buffer; top-up = what is left each month.</li></ul><//>
+    <${Card} title="How closely it reproduces your January 2027 numbers">
+      <p className="note">With the availability inputs above, QC reduced required hours come to about 6,901 vs 6,913 in the sheet and staffed hours 7,036 vs 7,044; BC reduced required 1,658 (exact); NB reduced 948 and staffed 650 (exact); intake CM hourly requirement ties exactly for AB/SK/MB/Terr (1,071), BC (1,332) and ON (3,252). Gaps: ON runs about 7% above the sheet, QC intake about 4% below, and the NS/NB/PE/NL CA:CM ratio was set to 1.8 (the importrange says 2.0) to match the sheet's 1,656 CM hours.</p><//>
+    <${Card} title="Assumptions to check">
+      <ul className="gaps"><li><b>Hourly shape</b>: January block applied to every month, one profile per tab. MB and SK use the AB shape and PE the Atlantic shape because their tabs weren't read; their demand is so small that supply is the one-NP minimum either way.</li>
+        <li><b>Master / open buffers</b> (25% / 10%) are placeholders chosen to land near the sheet's master share; enter the actual master and open schedules into the shaded cells for the month.</li>
+        <li><b>Shift blocks for BC, AB, NB, NL, NS, MB</b> were read from their tabs; SK and PE are assumed to equal MB, and BC/PR/ATL intake blocks equal QC/ON intake.</li>
+        <li><b>Head counts</b> remain the 2025-vintage values from the FTE tabs; MB, SK and PE have none.</li>
+        <li><b>Time zones</b>: BC (−3 h) and AB / Prairies (−2 h) show local labels over EST rows as in the sheet. A row can fall on the previous local day; the sheet keeps it in the same weekday column and so does this plan.</li></ul><//>
+  </div>`;
+}
+
+// ================= APP =================
+function load() { try { const o = JSON.parse(localStorage.getItem(KEY)); if (o && o.ver === 5 && Array.isArray(o.plans) && o.plans.length && o.plans.every(x => x.fte && x.engine && x.manualClin && x.ov && x.avail && x.blocks && x.peak && Array.isArray(x.cph.clin.QC) && x.lives.dist && x.extras)) return o; } catch (e) { /* ignore */ } return null; }
+function App({ initialTab }) {
+  const saved = useMemo(load, []);
+  const [plans, setPlans] = useState(saved ? saved.plans : [C.mkPlan()]);
+  const [activeId, setActiveId] = useState(saved && saved.plans.some(x => x.id === saved.activeId) ? saved.activeId : plans[0].id);
+  const [tab, setTab] = useState(initialTab || 'sum'), [theme, setTheme] = useState('auto');
+  const raw = plans.find(x => x.id === activeId) || plans[0];
+  const dp = useDeferredValue(raw);
+  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify({ ver: 5, plans, activeId: raw.id })); } catch (e) { /* ignore */ } }, [plans, activeId]);
+  useEffect(() => { const r = document.documentElement; if (theme === 'auto') r.removeAttribute('data-theme'); else r.setAttribute('data-theme', theme); }, [theme]);
+  const run = useMemo(() => C.runPlan(dp), [dp]);
+  const set = (path, val) => setPlans(ps => ps.map(x => (x.id === raw.id ? setIn(x, path, val) : x)));
+  const onDup = () => { const c = clone(raw); c.id = 'p' + Date.now().toString(36); c.name = raw.name + ' copy'; setPlans(ps => ps.concat([c])); setActiveId(c.id); };
+  const onDel = () => { if (plans.length < 2) return; const rest = plans.filter(x => x.id !== raw.id); setPlans(rest); setActiveId(rest[0].id); };
+  const onReset = () => { const d = C.mkPlan(); setPlans([d]); setActiveId(d.id); };
+  // KPIs
+  const units = [];
+  clinIds.forEach(i => { if (run.units.clin[i]) units.push(run.units.clin[i].months); });
+  const clinH = sum(clinIds.map(i => sum(run.units.clin[i].months.map(x => x.plannedH))));
+  const cmH = sum(REGIONS.map(r => sum(run.units.int[r].months.map(x => x.cmPlanned)))), caH = sum(REGIONS.map(r => sum(run.units.int[r].months.map(x => x.ca))));
+  const wsl = (list) => { const d = sum(list.map(x => x.den || 0)); return d ? sum(list.map(x => (x.sl || 0) * (x.den || 0))) / d : 1; };
+  const slC = wsl([].concat(...clinIds.map(i => run.units.clin[i].months))), slI = wsl([].concat(...REGIONS.map(r => run.units.int[r].months)));
+  const peakHire = Math.max(...MONTHS.map((_, m) => sum(['clin', 'cm', 'ca'].map(k => sum(Object.keys(run.fte[k]).map(u => run.fte[k][u][m].hireFTE))))));
+  const cogsTotal = sum(run.cogs.total), cogsHours = sum(run.cogs.hours), cogsExtra = sum(run.cogs.extraM) + sum(run.cogs.stipend);
+  const tabs = [{ v: 'sum', l: 'Plan summary' }, { v: 'inp', l: 'Inputs' }, { v: 'fc', l: 'Forecast by province' }, { v: 'hrs', l: 'Hours & top-ups' }, { v: 'fte', l: 'FTE & hiring' }, { v: 'perf', l: 'Expected performance' }, { v: 'prov', l: 'Province tabs' }, { v: 'src', l: 'Sources & notes' }];
+  return html`<div className="app">
+    <header className="top"><div className="titlerow"><div><h1>2027 Capacity Plan <span>by province · Clinical + Intake</span></h1><p className="tag">Built from the Forecasts, Enhanced Clinical and Intakes sheets (RD1.V10B) · manual entry anywhere</p></div>
+      <button className="btn ghost" onClick=${() => setTheme(theme === 'dark' ? 'light' : theme === 'light' ? 'auto' : 'dark')}>${'Theme: ' + (theme === 'dark' ? 'Dark' : theme === 'light' ? 'Light' : 'Auto')}</button></div>
+      <div className="scenrow"><span className="slab">Plan</span>${plans.map(x => html`<button key=${x.id} className=${'schip ' + (x.id === raw.id ? 'on' : '')} onClick=${() => setActiveId(x.id)}>${x.name}</button>`)}
+        <input className="rename" style=${{ width: 220 }} value=${raw.name} onChange=${e => set(['name'], e.target.value)} aria-label="Plan name" />
+        <button className="btn" onClick=${onDup}>Duplicate</button><button className="btn" onClick=${onDel} disabled=${plans.length < 2}>Delete</button><button className="btn ghost" onClick=${onReset}>Reset to sheet</button></div>
+      <div className=${'kpis ' + (raw !== dp ? 'pending' : '')}>
+        <div><i>Planned hours</i><b>${fmt0(clinH + cmH + caH)}</b><em>NP ${fmt0(clinH)} · CM ${fmt0(cmH)} · CA ${fmt0(caH)}</em></div>
+        <div><i>Total COGS</i><b>${moneyM(cogsTotal)}</b><em>hours ${moneyM(cogsHours)} + additional ${moneyM(cogsExtra)}</em></div>
+        <div className=${slI >= raw.sla.int.pct ? 'ok' : 'no'}><i>Intake service level</i><b>${pct1(slI)}</b><em>target ${Math.round(raw.sla.int.pct * 100)}% ≤ ${raw.sla.int.mins}m</em></div>
+        <div className=${slC >= raw.sla.clin.pct ? 'ok' : 'no'}><i>Clinical service level</i><b>${pct1(slC)}</b><em>target ${Math.round(raw.sla.clin.pct * 100)}% ≤ ${raw.sla.clin.mins}m</em></div>
+        <div className=${peakHire > 0.5 ? 'no' : 'ok'}><i>Peak shortage</i><b>${fmt1(peakHire)} FTE</b><em>across all units, worst month</em></div></div></header>
+    <nav className="tabs">${tabs.map(x => html`<button key=${x.v} className=${tab === x.v ? 'on' : ''} onClick=${() => setTab(x.v)}>${x.l}</button>`)}</nav>
+    <main>${tab === 'sum' ? html`<${SummaryTab} p=${dp} run=${run} />` : null}${tab === 'inp' ? html`<${InputsTab} p=${raw} set=${set} run=${run} />` : null}${tab === 'fc' ? html`<${ForecastTab} p=${raw} set=${set} run=${run} />` : null}${tab === 'hrs' ? html`<${HoursTab} p=${raw} set=${set} run=${run} />` : null}
+      ${tab === 'fte' ? html`<${FTETab} p=${raw} set=${set} run=${run} />` : null}${tab === 'perf' ? html`<${PerfTab} p=${dp} set=${set} run=${run} />` : null}${tab === 'prov' ? html`<${ProvTab} p=${raw} set=${set} run=${run} />` : null}${tab === 'src' ? html`<${SourcesTab} p=${raw} />` : null}</main>
+    <footer>Plans and edits stay in this browser only. This page and the Budget model are independent; the hourly engine is the same, the inputs and calibration are not.</footer></div>`;
+}
+window.__CapApp = App;
+if (typeof document !== 'undefined' && document.getElementById('root')) ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+})();
+
+</script>
+</body></html>
